@@ -1,16 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { VocabularyWord, Article } from '@/types/vocabulary';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw, Flame, Brain } from 'lucide-react';
 import { toast } from 'sonner';
+import { SRSData } from '@/types/srs';
 
 interface DragDropGameProps {
   words: VocabularyWord[];
   onBack: () => void;
   onComplete: (correct: number, incorrect: number) => void;
+  onRecordReview?: (wordId: string, isCorrect: boolean, responseTime: number) => SRSData;
+  getWordDifficulty?: (wordId: string) => 'easy' | 'medium' | 'hard';
 }
 
-export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) => {
+export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWordDifficulty }: DragDropGameProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [draggedWord, setDraggedWord] = useState<string | null>(null);
   const [result, setResult] = useState<'correct' | 'incorrect' | null>(null);
@@ -18,7 +21,8 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [completedWords, setCompletedWords] = useState<Set<string>>(new Set());
   const [activeDropZone, setActiveDropZone] = useState<Article | null>(null);
-
+  const wordStartTime = useRef<number>(Date.now());
+  const [lastSRSUpdate, setLastSRSUpdate] = useState<SRSData | null>(null);
   const currentWord = words[currentIndex];
   const isCompleted = currentIndex >= words.length;
 
@@ -43,8 +47,15 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
 
     if (!currentWord) return;
 
+    const responseTime = Date.now() - wordStartTime.current;
     const isCorrect = currentWord.article === article;
     setResult(isCorrect ? 'correct' : 'incorrect');
+
+    // Record SRS review
+    if (onRecordReview) {
+      const srsUpdate = onRecordReview(currentWord.id, isCorrect, responseTime);
+      setLastSRSUpdate(srsUpdate);
+    }
 
     if (isCorrect) {
       setCorrectCount(prev => prev + 1);
@@ -58,13 +69,15 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
 
     setTimeout(() => {
       setResult(null);
+      setLastSRSUpdate(null);
+      wordStartTime.current = Date.now();
       if (currentIndex < words.length - 1) {
         setCurrentIndex(prev => prev + 1);
       } else {
         onComplete(correctCount + (isCorrect ? 1 : 0), incorrectCount + (isCorrect ? 0 : 1));
       }
     }, 1500);
-  }, [currentWord, currentIndex, words.length, correctCount, incorrectCount, onComplete]);
+  }, [currentWord, currentIndex, words.length, correctCount, incorrectCount, onComplete, onRecordReview]);
 
   const handleTouchStart = (wordId: string) => {
     setDraggedWord(wordId);
@@ -73,8 +86,15 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
   const handleArticleClick = (article: Article) => {
     if (!currentWord || result) return;
     
+    const responseTime = Date.now() - wordStartTime.current;
     const isCorrect = currentWord.article === article;
     setResult(isCorrect ? 'correct' : 'incorrect');
+
+    // Record SRS review
+    if (onRecordReview) {
+      const srsUpdate = onRecordReview(currentWord.id, isCorrect, responseTime);
+      setLastSRSUpdate(srsUpdate);
+    }
 
     if (isCorrect) {
       setCorrectCount(prev => prev + 1);
@@ -89,6 +109,8 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
     setTimeout(() => {
       setResult(null);
       setDraggedWord(null);
+      setLastSRSUpdate(null);
+      wordStartTime.current = Date.now();
       if (currentIndex < words.length - 1) {
         setCurrentIndex(prev => prev + 1);
       } else {
@@ -111,6 +133,28 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
     setIncorrectCount(0);
     setCompletedWords(new Set());
     setResult(null);
+    setLastSRSUpdate(null);
+    wordStartTime.current = Date.now();
+  };
+
+  const getDifficultyBadge = (wordId: string) => {
+    if (!getWordDifficulty) return null;
+    const difficulty = getWordDifficulty(wordId);
+    const styles = {
+      easy: 'bg-correct/10 text-correct',
+      medium: 'bg-primary/10 text-primary',
+      hard: 'bg-incorrect/10 text-incorrect',
+    };
+    const labels = {
+      easy: 'Easy',
+      medium: 'Learning',
+      hard: 'Difficult',
+    };
+    return (
+      <span className={`text-xs px-2 py-1 rounded-full ${styles[difficulty]}`}>
+        {labels[difficulty]}
+      </span>
+    );
   };
 
   if (isCompleted) {
@@ -192,7 +236,8 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
             onDragStart={(e) => handleDragStart(e, currentWord.id)}
             onTouchStart={() => handleTouchStart(currentWord.id)}
           >
-            <div className="flex justify-end mb-2">
+            <div className="flex justify-between items-center mb-2">
+              {getDifficultyBadge(currentWord.id)}
               <button 
                 onClick={speakWord}
                 className="p-2 rounded-full hover:bg-muted transition-colors"
@@ -207,17 +252,34 @@ export const DragDropGame = ({ words, onBack, onComplete }: DragDropGameProps) =
             <p className="text-lg text-muted-foreground">{currentWord.english}</p>
             
             {result && (
-              <div className={`mt-4 flex items-center justify-center gap-2 ${
-                result === 'correct' ? 'text-correct' : 'text-incorrect'
-              }`}>
-                {result === 'correct' ? (
-                  <CheckCircle className="w-6 h-6" />
-                ) : (
-                  <XCircle className="w-6 h-6" />
+              <div className={`mt-4 flex flex-col items-center gap-2`}>
+                <div className={`flex items-center gap-2 ${
+                  result === 'correct' ? 'text-correct' : 'text-incorrect'
+                }`}>
+                  {result === 'correct' ? (
+                    <CheckCircle className="w-6 h-6" />
+                  ) : (
+                    <XCircle className="w-6 h-6" />
+                  )}
+                  <span className="font-semibold">
+                    {result === 'correct' ? 'Correct!' : `It's "${currentWord.article}"`}
+                  </span>
+                </div>
+                
+                {/* SRS Feedback */}
+                {lastSRSUpdate && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                    <Brain className="w-3 h-3" />
+                    <span>
+                      {lastSRSUpdate.interval === 0 
+                        ? 'Will review again soon'
+                        : lastSRSUpdate.interval === 1 
+                          ? 'Next review: tomorrow'
+                          : `Next review: in ${lastSRSUpdate.interval} days`
+                      }
+                    </span>
+                  </div>
                 )}
-                <span className="font-semibold">
-                  {result === 'correct' ? 'Correct!' : `It's "${currentWord.article}"`}
-                </span>
               </div>
             )}
           </div>
