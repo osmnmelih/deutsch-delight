@@ -3,14 +3,17 @@ import { Header } from './Header';
 import { ProgressCard } from './ProgressCard';
 import { LessonCard } from './LessonCard';
 import { DragDropGame } from './DragDropGame';
+import { VocabularyList } from './VocabularyList';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame } from 'lucide-react';
-import { lessonCategories, getWordsByCategory } from '@/data/vocabulary';
+import { Sparkles, BookOpen, Brain, Flame, List } from 'lucide-react';
+import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
 import { useSRS } from '@/hooks/useSRS';
+
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   
@@ -21,7 +24,8 @@ export const HomeScreen = () => {
     getDueWordsForCategory,
     getStats, 
     recordReview, 
-    getWordDifficulty 
+    getWordDifficulty,
+    getSRSData
   } = useSRS(vocabularyWords);
 
   // Calculate stats from SRS
@@ -46,30 +50,36 @@ export const HomeScreen = () => {
   }, [srsLoaded, globalStats.mastered]);
 
   const handleSelectLesson = (lessonId: string) => {
-    // Use SRS to get words prioritized by difficulty
     const words = getNextWords(6, lessonId);
     setGameWords(words);
     setActiveGame(lessonId);
   };
 
   const handleQuickPractice = () => {
-    // Get words that need review most (using SRS priority)
     const words = getNextWords(5);
     setGameWords(words);
     setActiveGame('quick-practice');
   };
   
   const handleReviewDue = () => {
-    // Get only due words
     const dueWords = getDueWordsForCategory();
     if (dueWords.length === 0) {
-      // If no words due, get some random ones
       const words = getNextWords(5);
       setGameWords(words);
     } else {
       setGameWords(dueWords.slice(0, 10));
     }
     setActiveGame('review-due');
+  };
+  
+  const handleOpenVocabulary = () => {
+    setActiveView('vocabulary');
+  };
+  
+  const handlePracticeWord = (word: VocabularyWord) => {
+    setGameWords([word]);
+    setActiveGame('single-word');
+    setActiveView('home');
   };
 
   const handleGameComplete = (correct: number, incorrect: number) => {
@@ -93,8 +103,22 @@ export const HomeScreen = () => {
 
   const handleBack = () => {
     setActiveGame(null);
+    setActiveView('home');
     setGameWords([]);
   };
+
+  // Vocabulary List View
+  if (activeView === 'vocabulary') {
+    return (
+      <VocabularyList
+        words={vocabularyWords}
+        getSRSData={getSRSData}
+        getWordDifficulty={getWordDifficulty}
+        onBack={handleBack}
+        onPracticeWord={handlePracticeWord}
+      />
+    );
+  }
 
   if (activeGame && gameWords.length > 0) {
     return (
@@ -148,7 +172,7 @@ export const HomeScreen = () => {
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-3 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className="grid grid-cols-3 gap-3 animate-slide-up" style={{ animationDelay: '100ms' }}>
           <Button 
             variant="primary" 
             size="lg" 
@@ -156,7 +180,7 @@ export const HomeScreen = () => {
             onClick={handleQuickPractice}
           >
             <Sparkles className="w-6 h-6" />
-            <span>Quick Practice</span>
+            <span className="text-xs">Practice</span>
           </Button>
           <Button 
             variant="secondary" 
@@ -165,7 +189,16 @@ export const HomeScreen = () => {
             onClick={handleReviewDue}
           >
             <BookOpen className="w-6 h-6" />
-            <span>Review Due</span>
+            <span className="text-xs">Review</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-4 flex-col gap-2"
+            onClick={handleOpenVocabulary}
+          >
+            <List className="w-6 h-6" />
+            <span className="text-xs">Words</span>
           </Button>
         </div>
 
