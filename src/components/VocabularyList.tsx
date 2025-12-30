@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { ArrowLeft, Brain, TrendingUp, Clock, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Brain, TrendingUp, Clock, CheckCircle, Volume2 } from 'lucide-react';
 import { VocabularyWord } from '@/types/vocabulary';
 import { SRSData } from '@/types/srs';
-import { format, formatDistanceToNow, isPast } from 'date-fns';
+import { formatDistanceToNow, isPast } from 'date-fns';
+import { useAudioPronunciation } from '@/hooks/useAudioPronunciation';
 
 interface VocabularyListProps {
   words: VocabularyWord[];
@@ -19,6 +20,7 @@ export const VocabularyList = ({
   onBack,
   onPracticeWord 
 }: VocabularyListProps) => {
+  const { speakWord } = useAudioPronunciation();
   
   const sortedWords = useMemo(() => {
     return [...words].sort((a, b) => {
@@ -132,6 +134,15 @@ export const VocabularyList = ({
                       <h3 className="font-heading text-lg font-bold text-foreground truncate">
                         {word.german}
                       </h3>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          speakWord(word.german, word.article);
+                        }}
+                        className="p-1 rounded-full hover:bg-muted transition-colors"
+                      >
+                        <Volume2 className="w-4 h-4 text-muted-foreground" />
+                      </button>
                     </div>
                     <p className="text-sm text-muted-foreground">{word.english}</p>
                   </div>
