@@ -4,8 +4,9 @@ import { ProgressCard } from './ProgressCard';
 import { LessonCard } from './LessonCard';
 import { DragDropGame } from './DragDropGame';
 import { VocabularyList } from './VocabularyList';
+import { GrammarLessons } from './GrammarLessons';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -13,7 +14,7 @@ import { useSRS } from '@/hooks/useSRS';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   
@@ -76,6 +77,10 @@ export const HomeScreen = () => {
     setActiveView('vocabulary');
   };
   
+  const handleOpenGrammar = () => {
+    setActiveView('grammar');
+  };
+  
   const handlePracticeWord = (word: VocabularyWord) => {
     setGameWords([word]);
     setActiveGame('single-word');
@@ -119,10 +124,15 @@ export const HomeScreen = () => {
       />
     );
   }
+  
+  // Grammar Lessons View
+  if (activeView === 'grammar') {
+    return <GrammarLessons onBack={handleBack} />;
+  }
 
   if (activeGame && gameWords.length > 0) {
     return (
-      <DragDropGame 
+      <DragDropGame
         words={gameWords} 
         onBack={handleBack}
         onComplete={handleGameComplete}
@@ -172,33 +182,42 @@ export const HomeScreen = () => {
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-3 gap-3 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className="grid grid-cols-4 gap-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
           <Button 
             variant="primary" 
             size="lg" 
-            className="h-auto py-4 flex-col gap-2"
+            className="h-auto py-3 flex-col gap-1"
             onClick={handleQuickPractice}
           >
-            <Sparkles className="w-6 h-6" />
-            <span className="text-xs">Practice</span>
+            <Sparkles className="w-5 h-5" />
+            <span className="text-[10px]">Practice</span>
           </Button>
           <Button 
             variant="secondary" 
             size="lg" 
-            className="h-auto py-4 flex-col gap-2"
+            className="h-auto py-3 flex-col gap-1"
             onClick={handleReviewDue}
           >
-            <BookOpen className="w-6 h-6" />
-            <span className="text-xs">Review</span>
+            <BookOpen className="w-5 h-5" />
+            <span className="text-[10px]">Review</span>
           </Button>
           <Button 
             variant="outline" 
             size="lg" 
-            className="h-auto py-4 flex-col gap-2"
+            className="h-auto py-3 flex-col gap-1"
             onClick={handleOpenVocabulary}
           >
-            <List className="w-6 h-6" />
-            <span className="text-xs">Words</span>
+            <List className="w-5 h-5" />
+            <span className="text-[10px]">Words</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={handleOpenGrammar}
+          >
+            <GraduationCap className="w-5 h-5" />
+            <span className="text-[10px]">Grammar</span>
           </Button>
         </div>
 

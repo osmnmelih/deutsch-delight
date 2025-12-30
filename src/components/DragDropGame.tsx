@@ -1,9 +1,10 @@
 import { useState, useCallback, useRef } from 'react';
 import { VocabularyWord, Article } from '@/types/vocabulary';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw, Flame, Brain } from 'lucide-react';
+import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 import { SRSData } from '@/types/srs';
+import { useAudioPronunciation } from '@/hooks/useAudioPronunciation';
 
 interface DragDropGameProps {
   words: VocabularyWord[];
@@ -23,6 +24,10 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
   const [activeDropZone, setActiveDropZone] = useState<Article | null>(null);
   const wordStartTime = useRef<number>(Date.now());
   const [lastSRSUpdate, setLastSRSUpdate] = useState<SRSData | null>(null);
+  
+  // Audio pronunciation hook
+  const { speakWord: speak, isSpeaking } = useAudioPronunciation();
+  
   const currentWord = words[currentIndex];
   const isCompleted = currentIndex >= words.length;
 
@@ -120,10 +125,8 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
   };
 
   const speakWord = () => {
-    if ('speechSynthesis' in window && currentWord) {
-      const utterance = new SpeechSynthesisUtterance(`${currentWord.article} ${currentWord.german}`);
-      utterance.lang = 'de-DE';
-      speechSynthesis.speak(utterance);
+    if (currentWord) {
+      speak(currentWord.german, currentWord.article);
     }
   };
 
