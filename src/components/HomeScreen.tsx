@@ -5,18 +5,21 @@ import { LessonCard } from './LessonCard';
 import { DragDropGame } from './DragDropGame';
 import { VocabularyList } from './VocabularyList';
 import { GrammarLessons } from './GrammarLessons';
+import { Quiz } from './Quiz';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
 import { useSRS } from '@/hooks/useSRS';
+import { QuestionType } from '@/types/quiz';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
+  const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
   
   // SRS Hook
   const { 
@@ -81,6 +84,12 @@ export const HomeScreen = () => {
     setActiveView('grammar');
   };
   
+  const handleOpenQuiz = (type: QuestionType | 'mixed' = 'mixed') => {
+    setQuizType(type);
+    setGameWords(vocabularyWords);
+    setActiveView('quiz');
+  };
+  
   const handlePracticeWord = (word: VocabularyWord) => {
     setGameWords([word]);
     setActiveGame('single-word');
@@ -128,6 +137,20 @@ export const HomeScreen = () => {
   // Grammar Lessons View
   if (activeView === 'grammar') {
     return <GrammarLessons onBack={handleBack} />;
+  }
+  
+  // Quiz View
+  if (activeView === 'quiz') {
+    return (
+      <Quiz
+        words={gameWords}
+        allWords={vocabularyWords}
+        onBack={handleBack}
+        onComplete={handleGameComplete}
+        onRecordReview={recordReview}
+        quizType={quizType}
+      />
+    );
   }
 
   if (activeGame && gameWords.length > 0) {
@@ -182,7 +205,7 @@ export const HomeScreen = () => {
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-4 gap-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className="grid grid-cols-5 gap-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
           <Button 
             variant="primary" 
             size="lg" 
@@ -194,6 +217,15 @@ export const HomeScreen = () => {
           </Button>
           <Button 
             variant="secondary" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => handleOpenQuiz('mixed')}
+          >
+            <FileQuestion className="w-5 h-5" />
+            <span className="text-[10px]">Quiz</span>
+          </Button>
+          <Button 
+            variant="outline" 
             size="lg" 
             className="h-auto py-3 flex-col gap-1"
             onClick={handleReviewDue}
