@@ -1,22 +1,27 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Header } from './Header';
 import { ProgressCard } from './ProgressCard';
 import { LessonCard } from './LessonCard';
 import { DragDropGame } from './DragDropGame';
 import { VocabularyList } from './VocabularyList';
 import { GrammarLessons } from './GrammarLessons';
+import { VerbLessons } from './VerbLessons';
 import { Quiz } from './Quiz';
+import { DailyGoalsCard } from './DailyGoalsCard';
+import { AchievementsView } from './AchievementsView';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
 import { useSRS } from '@/hooks/useSRS';
+import { useDailyGoals } from '@/hooks/useDailyGoals';
 import { QuestionType } from '@/types/quiz';
+import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -31,6 +36,29 @@ export const HomeScreen = () => {
     getWordDifficulty,
     getSRSData
   } = useSRS(vocabularyWords);
+  
+  // Daily Goals Hook
+  const { 
+    dailyProgress,
+    newAchievements, 
+    recordWordLearned, 
+    recordQuizCompleted,
+    clearNewAchievements
+  } = useDailyGoals();
+
+  // Show achievement notifications
+  useEffect(() => {
+    if (newAchievements.length > 0) {
+      newAchievements.forEach(achievement => {
+        toast.success(`🎉 Achievement Unlocked: ${achievement.title}`, {
+          description: achievement.description,
+          icon: achievement.icon,
+          duration: 5000
+        });
+      });
+      clearNewAchievements();
+    }
+  }, [newAchievements, clearNewAchievements]);
 
   // Calculate stats from SRS
   const globalStats = useMemo(() => getStats(), [getStats]);
@@ -38,20 +66,21 @@ export const HomeScreen = () => {
   const [progress, setProgress] = useState<UserProgress>({
     totalWords: vocabularyWords.length,
     masteredWords: 0,
-    currentStreak: 3,
+    currentStreak: dailyProgress?.streakCount || 0,
     correctAnswers: 0,
     incorrectAnswers: 0,
   });
   
-  // Update progress when SRS is loaded
+  // Update progress when SRS is loaded or daily progress changes
   useMemo(() => {
     if (srsLoaded) {
       setProgress(prev => ({
         ...prev,
         masteredWords: globalStats.mastered,
+        currentStreak: dailyProgress?.streakCount || prev.currentStreak,
       }));
     }
-  }, [srsLoaded, globalStats.mastered]);
+  }, [srsLoaded, globalStats.mastered, dailyProgress?.streakCount]);
 
   const handleSelectLesson = (lessonId: string) => {
     const words = getNextWords(6, lessonId);
@@ -84,10 +113,18 @@ export const HomeScreen = () => {
     setActiveView('grammar');
   };
   
+  const handleOpenVerbs = () => {
+    setActiveView('verbs');
+  };
+  
   const handleOpenQuiz = (type: QuestionType | 'mixed' = 'mixed') => {
     setQuizType(type);
     setGameWords(vocabularyWords);
     setActiveView('quiz');
+  };
+  
+  const handleViewAchievements = () => {
+    setActiveView('achievements');
   };
   
   const handlePracticeWord = (word: VocabularyWord) => {
@@ -103,9 +140,13 @@ export const HomeScreen = () => {
       correctAnswers: prev.correctAnswers + correct,
       incorrectAnswers: prev.incorrectAnswers + incorrect,
       masteredWords: newStats.mastered,
-      currentStreak: correct > incorrect ? prev.currentStreak + 1 : Math.max(0, prev.currentStreak - 1),
     }));
 
+    // Record for daily goals
+    for (let i = 0; i < correct; i++) {
+      recordWordLearned();
+    }
+    
     if (activeGame && activeGame !== 'quick-practice') {
       setCategories(prev => prev.map(cat => 
         cat.id === activeGame 
@@ -113,6 +154,11 @@ export const HomeScreen = () => {
           : cat
       ));
     }
+  };
+  
+  const handleQuizComplete = (correct: number, incorrect: number) => {
+    handleGameComplete(correct, incorrect);
+    recordQuizCompleted(correct, correct + incorrect);
   };
 
   const handleBack = () => {
@@ -139,6 +185,16 @@ export const HomeScreen = () => {
     return <GrammarLessons onBack={handleBack} />;
   }
   
+  // Verb Lessons View
+  if (activeView === 'verbs') {
+    return <VerbLessons onBack={handleBack} />;
+  }
+  
+  // Achievements View
+  if (activeView === 'achievements') {
+    return <AchievementsView onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -146,7 +202,7 @@ export const HomeScreen = () => {
         words={gameWords}
         allWords={vocabularyWords}
         onBack={handleBack}
-        onComplete={handleGameComplete}
+        onComplete={handleQuizComplete}
         onRecordReview={recordReview}
         quizType={quizType}
       />
@@ -251,7 +307,19 @@ export const HomeScreen = () => {
             <GraduationCap className="w-5 h-5" />
             <span className="text-[10px]">Grammar</span>
           </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={handleOpenVerbs}
+          >
+            <Languages className="w-5 h-5" />
+            <span className="text-[10px]">Verbs</span>
+          </Button>
         </div>
+
+        {/* Daily Goals Card */}
+        <DailyGoalsCard onViewAchievements={handleViewAchievements} />
 
         {/* Progress Card with SRS Stats */}
         <ProgressCard progress={progress} />
