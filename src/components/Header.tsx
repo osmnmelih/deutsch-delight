@@ -1,5 +1,6 @@
 import { Flame, Settings } from 'lucide-react';
 import { UserProgress } from '@/types/vocabulary';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   progress: UserProgress;
@@ -16,11 +17,13 @@ export const Header = ({ progress }: HeaderProps) => {
           </h1>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 bg-muted rounded-full px-3 py-1.5">
             <Flame className="w-5 h-5 text-primary" />
             <span className="font-bold text-sm">{progress.currentStreak}</span>
           </div>
+          
+          <ThemeToggle />
           
           <button className="p-2 rounded-full hover:bg-muted transition-colors">
             <Settings className="w-5 h-5 text-muted-foreground" />
