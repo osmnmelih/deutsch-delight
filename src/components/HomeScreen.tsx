@@ -10,8 +10,11 @@ import { Quiz } from './Quiz';
 import { DailyGoalsCard } from './DailyGoalsCard';
 import { AchievementsView } from './AchievementsView';
 import { SentenceBuilder } from './SentenceBuilder';
+import { ListeningExercise } from './ListeningExercise';
+import { VerbConjugationQuiz } from './VerbConjugationQuiz';
+import { VerbFlashcards } from './VerbFlashcards';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -22,7 +25,7 @@ import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -201,6 +204,21 @@ export const HomeScreen = () => {
     return <SentenceBuilder onBack={handleBack} />;
   }
   
+  // Listening Exercise View
+  if (activeView === 'listening') {
+    return <ListeningExercise onBack={handleBack} />;
+  }
+  
+  // Verb Conjugation Quiz View
+  if (activeView === 'verbQuiz') {
+    return <VerbConjugationQuiz onBack={handleBack} />;
+  }
+  
+  // Verb Flashcards View
+  if (activeView === 'verbFlashcards') {
+    return <VerbFlashcards onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -330,6 +348,33 @@ export const HomeScreen = () => {
           >
             <MessageSquare className="w-5 h-5" />
             <span className="text-[10px]">Sentences</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('listening')}
+          >
+            <Headphones className="w-5 h-5" />
+            <span className="text-[10px]">Listening</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('verbQuiz')}
+          >
+            <Languages className="w-5 h-5" />
+            <span className="text-[10px]">Verb Quiz</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('verbFlashcards')}
+          >
+            <Layers className="w-5 h-5" />
+            <span className="text-[10px]">Flashcards</span>
           </Button>
         </div>
 
