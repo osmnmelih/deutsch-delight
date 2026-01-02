@@ -9,8 +9,9 @@ import { VerbLessons } from './VerbLessons';
 import { Quiz } from './Quiz';
 import { DailyGoalsCard } from './DailyGoalsCard';
 import { AchievementsView } from './AchievementsView';
+import { SentenceBuilder } from './SentenceBuilder';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -21,7 +22,7 @@ import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -195,6 +196,11 @@ export const HomeScreen = () => {
     return <AchievementsView onBack={handleBack} />;
   }
   
+  // Sentence Builder View
+  if (activeView === 'sentences') {
+    return <SentenceBuilder onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -316,6 +322,15 @@ export const HomeScreen = () => {
             <Languages className="w-5 h-5" />
             <span className="text-[10px]">Verbs</span>
           </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('sentences')}
+          >
+            <MessageSquare className="w-5 h-5" />
+            <span className="text-[10px]">Sentences</span>
+          </Button>
         </div>
 
         {/* Daily Goals Card */}
@@ -342,25 +357,6 @@ export const HomeScreen = () => {
             <div className="bg-correct/10 p-3 rounded-xl">
               <p className="text-2xl font-bold text-correct">{globalStats.mastered}</p>
               <p className="text-xs text-muted-foreground">Mastered</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Article Tips */}
-        <div className="card-elevated p-4 animate-slide-up" style={{ animationDelay: '200ms' }}>
-          <h3 className="font-heading font-semibold mb-3">Article Tips 💡</h3>
-          <div className="grid grid-cols-3 gap-2 text-center text-sm">
-            <div className="bg-der/10 text-der p-2 rounded-xl">
-              <span className="font-bold">der</span>
-              <p className="text-xs opacity-80">masculine</p>
-            </div>
-            <div className="bg-die/10 text-die p-2 rounded-xl">
-              <span className="font-bold">die</span>
-              <p className="text-xs opacity-80">feminine</p>
-            </div>
-            <div className="bg-das/10 text-das p-2 rounded-xl">
-              <span className="font-bold">das</span>
-              <p className="text-xs opacity-80">neuter</p>
             </div>
           </div>
         </div>

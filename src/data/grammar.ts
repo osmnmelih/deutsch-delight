@@ -1,10 +1,42 @@
 export interface GrammarRule {
   id: string;
   pattern: string;
-  article: 'der' | 'die' | 'das';
+  article?: 'der' | 'die' | 'das';
   explanation: string;
   examples: string[];
   exceptions?: string[];
+}
+
+export interface CaseRule {
+  id: string;
+  case: 'nominativ' | 'akkusativ' | 'dativ' | 'genitiv';
+  title: string;
+  explanation: string;
+  question: string;
+  articleTable: {
+    masculine: string;
+    feminine: string;
+    neuter: string;
+    plural: string;
+  };
+  einKeinTable: {
+    masculine: string;
+    feminine: string;
+    neuter: string;
+    plural: string;
+  };
+  prepositions?: string[];
+  verbs?: string[];
+  examples: string[];
+}
+
+export interface ComparisonRule {
+  id: string;
+  type: 'comparative' | 'superlative';
+  title: string;
+  formation: string;
+  examples: { base: string; comparative: string; superlative: string; english: string }[];
+  irregulars?: { base: string; comparative: string; superlative: string; english: string }[];
 }
 
 export interface GrammarCategory {
@@ -167,6 +199,149 @@ export const grammarCategories: GrammarCategory[] = [
   },
 ];
 
+export const caseRules: CaseRule[] = [
+  {
+    id: 'nominativ',
+    case: 'nominativ',
+    title: 'Nominativ (Subject)',
+    explanation: 'The nominative case is used for the subject of a sentence - the person or thing doing the action.',
+    question: 'Wer? Was? (Who? What?)',
+    articleTable: {
+      masculine: 'der',
+      feminine: 'die',
+      neuter: 'das',
+      plural: 'die',
+    },
+    einKeinTable: {
+      masculine: 'ein / kein',
+      feminine: 'eine / keine',
+      neuter: 'ein / kein',
+      plural: '- / keine',
+    },
+    examples: [
+      'Der Mann liest. (The man reads.)',
+      'Die Frau singt. (The woman sings.)',
+      'Das Kind spielt. (The child plays.)',
+      'Ein Hund bellt. (A dog barks.)',
+    ],
+  },
+  {
+    id: 'akkusativ',
+    case: 'akkusativ',
+    title: 'Akkusativ (Direct Object)',
+    explanation: 'The accusative case is used for the direct object - the person or thing receiving the action directly.',
+    question: 'Wen? Was? (Whom? What?)',
+    articleTable: {
+      masculine: 'den',
+      feminine: 'die',
+      neuter: 'das',
+      plural: 'die',
+    },
+    einKeinTable: {
+      masculine: 'einen / keinen',
+      feminine: 'eine / keine',
+      neuter: 'ein / kein',
+      plural: '- / keine',
+    },
+    prepositions: ['durch (through)', 'für (for)', 'gegen (against)', 'ohne (without)', 'um (around)'],
+    verbs: ['haben', 'sehen', 'hören', 'lesen', 'essen', 'trinken', 'kaufen', 'brauchen'],
+    examples: [
+      'Ich sehe den Mann. (I see the man.)',
+      'Sie kauft einen Apfel. (She buys an apple.)',
+      'Er hat keinen Hunger. (He has no hunger.)',
+      'Wir brauchen das Buch. (We need the book.)',
+    ],
+  },
+  {
+    id: 'dativ',
+    case: 'dativ',
+    title: 'Dativ (Indirect Object)',
+    explanation: 'The dative case is used for the indirect object - the person or thing receiving something indirectly, often the recipient.',
+    question: 'Wem? (To whom?)',
+    articleTable: {
+      masculine: 'dem',
+      feminine: 'der',
+      neuter: 'dem',
+      plural: 'den (+n)',
+    },
+    einKeinTable: {
+      masculine: 'einem / keinem',
+      feminine: 'einer / keiner',
+      neuter: 'einem / keinem',
+      plural: '- / keinen (+n)',
+    },
+    prepositions: ['aus (from)', 'bei (at/with)', 'mit (with)', 'nach (after/to)', 'seit (since)', 'von (from)', 'zu (to)'],
+    verbs: ['helfen', 'danken', 'gehören', 'gefallen', 'schmecken', 'folgen', 'glauben', 'antworten'],
+    examples: [
+      'Ich helfe dem Mann. (I help the man.)',
+      'Sie gibt der Frau ein Buch. (She gives the woman a book.)',
+      'Das Buch gehört einem Freund. (The book belongs to a friend.)',
+      'Ich fahre mit dem Bus. (I travel by bus.)',
+    ],
+  },
+  {
+    id: 'genitiv',
+    case: 'genitiv',
+    title: 'Genitiv (Possession)',
+    explanation: 'The genitive case shows possession or relationship between nouns. It answers "whose?" and is equivalent to "of" or apostrophe-s in English.',
+    question: 'Wessen? (Whose?)',
+    articleTable: {
+      masculine: 'des (+s/es)',
+      feminine: 'der',
+      neuter: 'des (+s/es)',
+      plural: 'der',
+    },
+    einKeinTable: {
+      masculine: 'eines / keines (+s/es)',
+      feminine: 'einer / keiner',
+      neuter: 'eines / keines (+s/es)',
+      plural: '- / keiner',
+    },
+    prepositions: ['wegen (because of)', 'während (during)', 'trotz (despite)', 'statt/anstatt (instead of)'],
+    examples: [
+      'Das Auto des Mannes. (The car of the man / The man\'s car.)',
+      'Die Tasche der Frau. (The bag of the woman / The woman\'s bag.)',
+      'Das Spielzeug des Kindes. (The toy of the child.)',
+      'Wegen des Wetters. (Because of the weather.)',
+    ],
+  },
+];
+
+export const comparisonRules: ComparisonRule[] = [
+  {
+    id: 'comparative',
+    type: 'comparative',
+    title: 'Komparativ (Comparative)',
+    formation: 'Add -er to the adjective. Many short adjectives also get an umlaut (a→ä, o→ö, u→ü).',
+    examples: [
+      { base: 'schnell', comparative: 'schneller', superlative: 'am schnellsten', english: 'fast' },
+      { base: 'klein', comparative: 'kleiner', superlative: 'am kleinsten', english: 'small' },
+      { base: 'schön', comparative: 'schöner', superlative: 'am schönsten', english: 'beautiful' },
+      { base: 'langsam', comparative: 'langsamer', superlative: 'am langsamsten', english: 'slow' },
+    ],
+    irregulars: [
+      { base: 'gut', comparative: 'besser', superlative: 'am besten', english: 'good' },
+      { base: 'viel', comparative: 'mehr', superlative: 'am meisten', english: 'much/many' },
+      { base: 'gern', comparative: 'lieber', superlative: 'am liebsten', english: 'gladly' },
+      { base: 'hoch', comparative: 'höher', superlative: 'am höchsten', english: 'high' },
+      { base: 'nah', comparative: 'näher', superlative: 'am nächsten', english: 'near' },
+    ],
+  },
+  {
+    id: 'superlative',
+    type: 'superlative',
+    title: 'Superlativ (Superlative)',
+    formation: 'Add -st or -est (after d, t, s, ß, z) and use with "am" for predicative or add adjective endings for attributive use.',
+    examples: [
+      { base: 'alt', comparative: 'älter', superlative: 'am ältesten', english: 'old' },
+      { base: 'jung', comparative: 'jünger', superlative: 'am jüngsten', english: 'young' },
+      { base: 'groß', comparative: 'größer', superlative: 'am größten', english: 'big/tall' },
+      { base: 'kalt', comparative: 'kälter', superlative: 'am kältesten', english: 'cold' },
+      { base: 'warm', comparative: 'wärmer', superlative: 'am wärmsten', english: 'warm' },
+    ],
+  },
+];
+
 export const getGrammarByArticle = (article: 'der' | 'die' | 'das'): GrammarCategory | undefined => {
   const categoryMap = {
     'der': 'der-masculine',
@@ -174,4 +349,8 @@ export const getGrammarByArticle = (article: 'der' | 'die' | 'das'): GrammarCate
     'das': 'das-neuter',
   };
   return grammarCategories.find(cat => cat.id === categoryMap[article]);
+};
+
+export const getCaseByName = (caseName: 'nominativ' | 'akkusativ' | 'dativ' | 'genitiv'): CaseRule | undefined => {
+  return caseRules.find(c => c.case === caseName);
 };
