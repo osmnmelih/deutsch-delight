@@ -36,10 +36,10 @@ const generateQuestions = (verbList: Verb[], count: number): QuizQuestion[] => {
     
     let correctAnswer: string;
     if (tense === 'present') {
-      correctAnswer = verb.present[person];
+      correctAnswer = verb.präsens[person];
     } else {
       // For perfect tense, construct the full form
-      const auxiliary = verb.perfect.auxiliary === 'haben' 
+      const auxiliary = verb.perfekt.auxiliary === 'haben' 
         ? (person === 'ich' ? 'habe' : 
            person === 'du' ? 'hast' : 
            person === 'er/sie/es' ? 'hat' : 
@@ -50,7 +50,7 @@ const generateQuestions = (verbList: Verb[], count: number): QuizQuestion[] => {
            person === 'er/sie/es' ? 'ist' : 
            person === 'wir' ? 'sind' : 
            person === 'ihr' ? 'seid' : 'sind');
-      correctAnswer = `${auxiliary} ${verb.perfect.participle}`;
+      correctAnswer = `${auxiliary} ${verb.perfekt.participle}`;
     }
     
     questions.push({ verb, tense, person, correctAnswer });
