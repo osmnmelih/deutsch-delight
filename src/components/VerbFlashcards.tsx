@@ -334,19 +334,19 @@ export const VerbFlashcards = ({ onBack }: VerbFlashcardsProps) => {
                 
                 {/* Present Tense */}
                 <div className="border-t border-border pt-4">
-                  <h3 className="font-semibold text-sm text-muted-foreground mb-2">Present Tense</h3>
+                  <h3 className="font-semibold text-sm text-muted-foreground mb-2">Present Tense (Präsens)</h3>
                   <div className="grid grid-cols-2 gap-2 text-sm">
-                    {Object.entries(currentVerb.present).map(([person, conjugation]) => (
+                    {Object.entries(currentVerb.präsens).map(([person, conjugation]) => (
                       <button
                         key={person}
                         className="text-left px-2 py-1 rounded hover:bg-muted transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleSpeak(`${person}, ${conjugation}`);
+                          handleSpeak(`${person}, ${conjugation as string}`);
                         }}
                       >
                         <span className="text-muted-foreground">{person}: </span>
-                        <span className="font-medium">{conjugation}</span>
+                        <span className="font-medium">{conjugation as string}</span>
                       </button>
                     ))}
                   </div>
@@ -354,16 +354,16 @@ export const VerbFlashcards = ({ onBack }: VerbFlashcardsProps) => {
                 
                 {/* Perfect Tense */}
                 <div className="border-t border-border pt-4">
-                  <h3 className="font-semibold text-sm text-muted-foreground mb-2">Perfect Tense</h3>
+                  <h3 className="font-semibold text-sm text-muted-foreground mb-2">Perfect Tense (Perfekt)</h3>
                   <button
                     className="text-left px-2 py-1 rounded hover:bg-muted transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSpeak(`Ich habe ${currentVerb.perfect.participle}`);
+                      handleSpeak(`Ich habe ${currentVerb.perfekt.participle}`);
                     }}
                   >
-                    <span className="text-muted-foreground">{currentVerb.perfect.auxiliary} + </span>
-                    <span className="font-medium">{currentVerb.perfect.participle}</span>
+                    <span className="text-muted-foreground">{currentVerb.perfekt.auxiliary} + </span>
+                    <span className="font-medium">{currentVerb.perfekt.participle}</span>
                   </button>
                 </div>
               </div>
