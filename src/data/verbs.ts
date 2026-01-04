@@ -2447,6 +2447,1246 @@ export const verbs: Verb[] = [
       { german: 'Er kam spät zurück.', english: 'He came back late.', tense: 'präteritum' },
       { german: 'Sie ist endlich zurückgekommen.', english: 'She finally came back.', tense: 'perfekt' }
     ]
+  },
+  // Additional verbs for B2 coverage (33-55)
+  {
+    id: 'v33',
+    infinitive: 'denken',
+    english: 'to think',
+    präsens: {
+      ich: 'denke',
+      du: 'denkst',
+      'er/sie/es': 'denkt',
+      wir: 'denken',
+      ihr: 'denkt',
+      sie: 'denken'
+    },
+    präteritum: {
+      ich: 'dachte',
+      du: 'dachtest',
+      'er/sie/es': 'dachte',
+      wir: 'dachten',
+      ihr: 'dachtet',
+      sie: 'dachten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gedacht' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gedacht' },
+    futurI: {
+      ich: 'werde denken',
+      du: 'wirst denken',
+      'er/sie/es': 'wird denken',
+      wir: 'werden denken',
+      ihr: 'werdet denken',
+      sie: 'werden denken'
+    },
+    konjunktivI: {
+      ich: 'denke',
+      du: 'denkest',
+      'er/sie/es': 'denke',
+      wir: 'denken',
+      ihr: 'denket',
+      sie: 'denken'
+    },
+    konjunktivII: {
+      ich: 'dächte',
+      du: 'dächtest',
+      'er/sie/es': 'dächte',
+      wir: 'dächten',
+      ihr: 'dächtet',
+      sie: 'dächten'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Ich denke an dich.', english: 'I think of you.', tense: 'präsens' },
+      { german: 'Er dachte lange nach.', english: 'He thought for a long time.', tense: 'präteritum' },
+      { german: 'Ich hätte das nicht gedacht.', english: 'I wouldn\'t have thought that.', tense: 'konjunktivII' }
+    ]
+  },
+  {
+    id: 'v34',
+    infinitive: 'bringen',
+    english: 'to bring',
+    präsens: {
+      ich: 'bringe',
+      du: 'bringst',
+      'er/sie/es': 'bringt',
+      wir: 'bringen',
+      ihr: 'bringt',
+      sie: 'bringen'
+    },
+    präteritum: {
+      ich: 'brachte',
+      du: 'brachtest',
+      'er/sie/es': 'brachte',
+      wir: 'brachten',
+      ihr: 'brachtet',
+      sie: 'brachten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gebracht' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gebracht' },
+    futurI: {
+      ich: 'werde bringen',
+      du: 'wirst bringen',
+      'er/sie/es': 'wird bringen',
+      wir: 'werden bringen',
+      ihr: 'werdet bringen',
+      sie: 'werden bringen'
+    },
+    konjunktivI: {
+      ich: 'bringe',
+      du: 'bringest',
+      'er/sie/es': 'bringe',
+      wir: 'bringen',
+      ihr: 'bringet',
+      sie: 'bringen'
+    },
+    konjunktivII: {
+      ich: 'brächte',
+      du: 'brächtest',
+      'er/sie/es': 'brächte',
+      wir: 'brächten',
+      ihr: 'brächtet',
+      sie: 'brächten'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    caseRequired: 'akkusativ+dativ',
+    examples: [
+      { german: 'Ich bringe dir das Buch.', english: 'I bring you the book.', tense: 'präsens' },
+      { german: 'Er brachte mir Blumen.', english: 'He brought me flowers.', tense: 'präteritum' },
+      { german: 'Sie hat es gebracht.', english: 'She brought it.', tense: 'perfekt' }
+    ]
+  },
+  {
+    id: 'v35',
+    infinitive: 'kennen',
+    english: 'to know (person/place)',
+    präsens: {
+      ich: 'kenne',
+      du: 'kennst',
+      'er/sie/es': 'kennt',
+      wir: 'kennen',
+      ihr: 'kennt',
+      sie: 'kennen'
+    },
+    präteritum: {
+      ich: 'kannte',
+      du: 'kanntest',
+      'er/sie/es': 'kannte',
+      wir: 'kannten',
+      ihr: 'kanntet',
+      sie: 'kannten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gekannt' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gekannt' },
+    futurI: {
+      ich: 'werde kennen',
+      du: 'wirst kennen',
+      'er/sie/es': 'wird kennen',
+      wir: 'werden kennen',
+      ihr: 'werdet kennen',
+      sie: 'werden kennen'
+    },
+    konjunktivI: {
+      ich: 'kenne',
+      du: 'kennest',
+      'er/sie/es': 'kenne',
+      wir: 'kennen',
+      ihr: 'kennet',
+      sie: 'kennen'
+    },
+    konjunktivII: {
+      ich: 'kennte',
+      du: 'kenntest',
+      'er/sie/es': 'kennte',
+      wir: 'kennten',
+      ihr: 'kenntet',
+      sie: 'kennten'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich kenne ihn gut.', english: 'I know him well.', tense: 'präsens' },
+      { german: 'Sie kannte die Stadt.', english: 'She knew the city.', tense: 'präteritum' },
+      { german: 'Hast du sie gekannt?', english: 'Did you know her?', tense: 'perfekt' }
+    ]
+  },
+  {
+    id: 'v36',
+    infinitive: 'nennen',
+    english: 'to name/call',
+    präsens: {
+      ich: 'nenne',
+      du: 'nennst',
+      'er/sie/es': 'nennt',
+      wir: 'nennen',
+      ihr: 'nennt',
+      sie: 'nennen'
+    },
+    präteritum: {
+      ich: 'nannte',
+      du: 'nanntest',
+      'er/sie/es': 'nannte',
+      wir: 'nannten',
+      ihr: 'nanntet',
+      sie: 'nannten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'genannt' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'genannt' },
+    futurI: {
+      ich: 'werde nennen',
+      du: 'wirst nennen',
+      'er/sie/es': 'wird nennen',
+      wir: 'werden nennen',
+      ihr: 'werdet nennen',
+      sie: 'werden nennen'
+    },
+    konjunktivI: {
+      ich: 'nenne',
+      du: 'nennest',
+      'er/sie/es': 'nenne',
+      wir: 'nennen',
+      ihr: 'nennet',
+      sie: 'nennen'
+    },
+    konjunktivII: {
+      ich: 'nennte',
+      du: 'nenntest',
+      'er/sie/es': 'nennte',
+      wir: 'nennten',
+      ihr: 'nenntet',
+      sie: 'nennten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Wie nennt man das?', english: 'What do you call that?', tense: 'präsens' },
+      { german: 'Sie nannte ihn Max.', english: 'She called him Max.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v37',
+    infinitive: 'rennen',
+    english: 'to run',
+    präsens: {
+      ich: 'renne',
+      du: 'rennst',
+      'er/sie/es': 'rennt',
+      wir: 'rennen',
+      ihr: 'rennt',
+      sie: 'rennen'
+    },
+    präteritum: {
+      ich: 'rannte',
+      du: 'ranntest',
+      'er/sie/es': 'rannte',
+      wir: 'rannten',
+      ihr: 'ranntet',
+      sie: 'rannten'
+    },
+    perfekt: { auxiliary: 'sein', participle: 'gerannt' },
+    plusquamperfekt: { auxiliary: 'sein', participle: 'gerannt' },
+    futurI: {
+      ich: 'werde rennen',
+      du: 'wirst rennen',
+      'er/sie/es': 'wird rennen',
+      wir: 'werden rennen',
+      ihr: 'werdet rennen',
+      sie: 'werden rennen'
+    },
+    konjunktivI: {
+      ich: 'renne',
+      du: 'rennest',
+      'er/sie/es': 'renne',
+      wir: 'rennen',
+      ihr: 'rennet',
+      sie: 'rennen'
+    },
+    konjunktivII: {
+      ich: 'rennte',
+      du: 'renntest',
+      'er/sie/es': 'rennte',
+      wir: 'rennten',
+      ihr: 'renntet',
+      sie: 'rennten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    examples: [
+      { german: 'Er rennt schnell.', english: 'He runs fast.', tense: 'präsens' },
+      { german: 'Sie rannte nach Hause.', english: 'She ran home.', tense: 'präteritum' },
+      { german: 'Wir sind gerannt.', english: 'We ran.', tense: 'perfekt' }
+    ]
+  },
+  {
+    id: 'v38',
+    infinitive: 'senden',
+    english: 'to send',
+    präsens: {
+      ich: 'sende',
+      du: 'sendest',
+      'er/sie/es': 'sendet',
+      wir: 'senden',
+      ihr: 'sendet',
+      sie: 'senden'
+    },
+    präteritum: {
+      ich: 'sandte',
+      du: 'sandtest',
+      'er/sie/es': 'sandte',
+      wir: 'sandten',
+      ihr: 'sandtet',
+      sie: 'sandten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gesandt' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gesandt' },
+    futurI: {
+      ich: 'werde senden',
+      du: 'wirst senden',
+      'er/sie/es': 'wird senden',
+      wir: 'werden senden',
+      ihr: 'werdet senden',
+      sie: 'werden senden'
+    },
+    konjunktivI: {
+      ich: 'sende',
+      du: 'sendest',
+      'er/sie/es': 'sende',
+      wir: 'senden',
+      ihr: 'sendet',
+      sie: 'senden'
+    },
+    konjunktivII: {
+      ich: 'sendete',
+      du: 'sendetest',
+      'er/sie/es': 'sendete',
+      wir: 'sendeten',
+      ihr: 'sendetet',
+      sie: 'sendeten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ+dativ',
+    examples: [
+      { german: 'Ich sende dir eine E-Mail.', english: 'I send you an email.', tense: 'präsens' },
+      { german: 'Er sandte einen Brief.', english: 'He sent a letter.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v39',
+    infinitive: 'wenden',
+    english: 'to turn',
+    präsens: {
+      ich: 'wende',
+      du: 'wendest',
+      'er/sie/es': 'wendet',
+      wir: 'wenden',
+      ihr: 'wendet',
+      sie: 'wenden'
+    },
+    präteritum: {
+      ich: 'wandte',
+      du: 'wandtest',
+      'er/sie/es': 'wandte',
+      wir: 'wandten',
+      ihr: 'wandtet',
+      sie: 'wandten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gewandt' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gewandt' },
+    futurI: {
+      ich: 'werde wenden',
+      du: 'wirst wenden',
+      'er/sie/es': 'wird wenden',
+      wir: 'werden wenden',
+      ihr: 'werdet wenden',
+      sie: 'werden wenden'
+    },
+    konjunktivI: {
+      ich: 'wende',
+      du: 'wendest',
+      'er/sie/es': 'wende',
+      wir: 'wenden',
+      ihr: 'wendet',
+      sie: 'wenden'
+    },
+    konjunktivII: {
+      ich: 'wendete',
+      du: 'wendetest',
+      'er/sie/es': 'wendete',
+      wir: 'wendeten',
+      ihr: 'wendetet',
+      sie: 'wendeten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    examples: [
+      { german: 'Ich wende mich an Sie.', english: 'I turn to you.', tense: 'präsens' },
+      { german: 'Er wandte den Kopf.', english: 'He turned his head.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v40',
+    infinitive: 'bitten',
+    english: 'to ask/request',
+    präsens: {
+      ich: 'bitte',
+      du: 'bittest',
+      'er/sie/es': 'bittet',
+      wir: 'bitten',
+      ihr: 'bittet',
+      sie: 'bitten'
+    },
+    präteritum: {
+      ich: 'bat',
+      du: 'bat(e)st',
+      'er/sie/es': 'bat',
+      wir: 'baten',
+      ihr: 'batet',
+      sie: 'baten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gebeten' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gebeten' },
+    futurI: {
+      ich: 'werde bitten',
+      du: 'wirst bitten',
+      'er/sie/es': 'wird bitten',
+      wir: 'werden bitten',
+      ihr: 'werdet bitten',
+      sie: 'werden bitten'
+    },
+    konjunktivI: {
+      ich: 'bitte',
+      du: 'bittest',
+      'er/sie/es': 'bitte',
+      wir: 'bitten',
+      ihr: 'bittet',
+      sie: 'bitten'
+    },
+    konjunktivII: {
+      ich: 'bäte',
+      du: 'bätest',
+      'er/sie/es': 'bäte',
+      wir: 'bäten',
+      ihr: 'bätet',
+      sie: 'bäten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich bitte dich um Hilfe.', english: 'I ask you for help.', tense: 'präsens' },
+      { german: 'Er bat um Verzeihung.', english: 'He asked for forgiveness.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v41',
+    infinitive: 'sitzen',
+    english: 'to sit',
+    präsens: {
+      ich: 'sitze',
+      du: 'sitzt',
+      'er/sie/es': 'sitzt',
+      wir: 'sitzen',
+      ihr: 'sitzt',
+      sie: 'sitzen'
+    },
+    präteritum: {
+      ich: 'saß',
+      du: 'saßest',
+      'er/sie/es': 'saß',
+      wir: 'saßen',
+      ihr: 'saßt',
+      sie: 'saßen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gesessen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gesessen' },
+    futurI: {
+      ich: 'werde sitzen',
+      du: 'wirst sitzen',
+      'er/sie/es': 'wird sitzen',
+      wir: 'werden sitzen',
+      ihr: 'werdet sitzen',
+      sie: 'werden sitzen'
+    },
+    konjunktivI: {
+      ich: 'sitze',
+      du: 'sitzest',
+      'er/sie/es': 'sitze',
+      wir: 'sitzen',
+      ihr: 'sitzet',
+      sie: 'sitzen'
+    },
+    konjunktivII: {
+      ich: 'säße',
+      du: 'säßest',
+      'er/sie/es': 'säße',
+      wir: 'säßen',
+      ihr: 'säßet',
+      sie: 'säßen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Ich sitze auf dem Stuhl.', english: 'I sit on the chair.', tense: 'präsens' },
+      { german: 'Er saß am Fenster.', english: 'He sat at the window.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v42',
+    infinitive: 'liegen',
+    english: 'to lie (position)',
+    präsens: {
+      ich: 'liege',
+      du: 'liegst',
+      'er/sie/es': 'liegt',
+      wir: 'liegen',
+      ihr: 'liegt',
+      sie: 'liegen'
+    },
+    präteritum: {
+      ich: 'lag',
+      du: 'lagst',
+      'er/sie/es': 'lag',
+      wir: 'lagen',
+      ihr: 'lagt',
+      sie: 'lagen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gelegen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gelegen' },
+    futurI: {
+      ich: 'werde liegen',
+      du: 'wirst liegen',
+      'er/sie/es': 'wird liegen',
+      wir: 'werden liegen',
+      ihr: 'werdet liegen',
+      sie: 'werden liegen'
+    },
+    konjunktivI: {
+      ich: 'liege',
+      du: 'liegest',
+      'er/sie/es': 'liege',
+      wir: 'liegen',
+      ihr: 'lieget',
+      sie: 'liegen'
+    },
+    konjunktivII: {
+      ich: 'läge',
+      du: 'lägest',
+      'er/sie/es': 'läge',
+      wir: 'lägen',
+      ihr: 'läget',
+      sie: 'lägen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Das Buch liegt auf dem Tisch.', english: 'The book lies on the table.', tense: 'präsens' },
+      { german: 'Er lag im Bett.', english: 'He lay in bed.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v43',
+    infinitive: 'stehen',
+    english: 'to stand',
+    präsens: {
+      ich: 'stehe',
+      du: 'stehst',
+      'er/sie/es': 'steht',
+      wir: 'stehen',
+      ihr: 'steht',
+      sie: 'stehen'
+    },
+    präteritum: {
+      ich: 'stand',
+      du: 'standest',
+      'er/sie/es': 'stand',
+      wir: 'standen',
+      ihr: 'standet',
+      sie: 'standen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gestanden' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gestanden' },
+    futurI: {
+      ich: 'werde stehen',
+      du: 'wirst stehen',
+      'er/sie/es': 'wird stehen',
+      wir: 'werden stehen',
+      ihr: 'werdet stehen',
+      sie: 'werden stehen'
+    },
+    konjunktivI: {
+      ich: 'stehe',
+      du: 'stehest',
+      'er/sie/es': 'stehe',
+      wir: 'stehen',
+      ihr: 'stehet',
+      sie: 'stehen'
+    },
+    konjunktivII: {
+      ich: 'stände',
+      du: 'ständest',
+      'er/sie/es': 'stände',
+      wir: 'ständen',
+      ihr: 'ständet',
+      sie: 'ständen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Ich stehe vor der Tür.', english: 'I stand in front of the door.', tense: 'präsens' },
+      { german: 'Er stand im Regen.', english: 'He stood in the rain.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v44',
+    infinitive: 'fallen',
+    english: 'to fall',
+    präsens: {
+      ich: 'falle',
+      du: 'fällst',
+      'er/sie/es': 'fällt',
+      wir: 'fallen',
+      ihr: 'fallt',
+      sie: 'fallen'
+    },
+    präteritum: {
+      ich: 'fiel',
+      du: 'fielst',
+      'er/sie/es': 'fiel',
+      wir: 'fielen',
+      ihr: 'fielt',
+      sie: 'fielen'
+    },
+    perfekt: { auxiliary: 'sein', participle: 'gefallen' },
+    plusquamperfekt: { auxiliary: 'sein', participle: 'gefallen' },
+    futurI: {
+      ich: 'werde fallen',
+      du: 'wirst fallen',
+      'er/sie/es': 'wird fallen',
+      wir: 'werden fallen',
+      ihr: 'werdet fallen',
+      sie: 'werden fallen'
+    },
+    konjunktivI: {
+      ich: 'falle',
+      du: 'fallest',
+      'er/sie/es': 'falle',
+      wir: 'fallen',
+      ihr: 'fallet',
+      sie: 'fallen'
+    },
+    konjunktivII: {
+      ich: 'fiele',
+      du: 'fielest',
+      'er/sie/es': 'fiele',
+      wir: 'fielen',
+      ihr: 'fielet',
+      sie: 'fielen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Die Blätter fallen.', english: 'The leaves fall.', tense: 'präsens' },
+      { german: 'Er fiel hin.', english: 'He fell down.', tense: 'präteritum' },
+      { german: 'Der Apfel ist gefallen.', english: 'The apple fell.', tense: 'perfekt' }
+    ]
+  },
+  {
+    id: 'v45',
+    infinitive: 'halten',
+    english: 'to hold/stop',
+    präsens: {
+      ich: 'halte',
+      du: 'hältst',
+      'er/sie/es': 'hält',
+      wir: 'halten',
+      ihr: 'haltet',
+      sie: 'halten'
+    },
+    präteritum: {
+      ich: 'hielt',
+      du: 'hieltest',
+      'er/sie/es': 'hielt',
+      wir: 'hielten',
+      ihr: 'hieltet',
+      sie: 'hielten'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gehalten' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gehalten' },
+    futurI: {
+      ich: 'werde halten',
+      du: 'wirst halten',
+      'er/sie/es': 'wird halten',
+      wir: 'werden halten',
+      ihr: 'werdet halten',
+      sie: 'werden halten'
+    },
+    konjunktivI: {
+      ich: 'halte',
+      du: 'haltest',
+      'er/sie/es': 'halte',
+      wir: 'halten',
+      ihr: 'haltet',
+      sie: 'halten'
+    },
+    konjunktivII: {
+      ich: 'hielte',
+      du: 'hieltest',
+      'er/sie/es': 'hielte',
+      wir: 'hielten',
+      ihr: 'hieltet',
+      sie: 'hielten'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich halte das Buch.', english: 'I hold the book.', tense: 'präsens' },
+      { german: 'Der Bus hielt an.', english: 'The bus stopped.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v46',
+    infinitive: 'lassen',
+    english: 'to let/leave',
+    präsens: {
+      ich: 'lasse',
+      du: 'lässt',
+      'er/sie/es': 'lässt',
+      wir: 'lassen',
+      ihr: 'lasst',
+      sie: 'lassen'
+    },
+    präteritum: {
+      ich: 'ließ',
+      du: 'ließest',
+      'er/sie/es': 'ließ',
+      wir: 'ließen',
+      ihr: 'ließt',
+      sie: 'ließen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gelassen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gelassen' },
+    futurI: {
+      ich: 'werde lassen',
+      du: 'wirst lassen',
+      'er/sie/es': 'wird lassen',
+      wir: 'werden lassen',
+      ihr: 'werdet lassen',
+      sie: 'werden lassen'
+    },
+    konjunktivI: {
+      ich: 'lasse',
+      du: 'lassest',
+      'er/sie/es': 'lasse',
+      wir: 'lassen',
+      ihr: 'lasset',
+      sie: 'lassen'
+    },
+    konjunktivII: {
+      ich: 'ließe',
+      du: 'ließest',
+      'er/sie/es': 'ließe',
+      wir: 'ließen',
+      ihr: 'ließet',
+      sie: 'ließen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Lass mich in Ruhe!', english: 'Leave me alone!', tense: 'präsens' },
+      { german: 'Er ließ den Hund raus.', english: 'He let the dog out.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v47',
+    infinitive: 'rufen',
+    english: 'to call',
+    präsens: {
+      ich: 'rufe',
+      du: 'rufst',
+      'er/sie/es': 'ruft',
+      wir: 'rufen',
+      ihr: 'ruft',
+      sie: 'rufen'
+    },
+    präteritum: {
+      ich: 'rief',
+      du: 'riefst',
+      'er/sie/es': 'rief',
+      wir: 'riefen',
+      ihr: 'rieft',
+      sie: 'riefen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gerufen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gerufen' },
+    futurI: {
+      ich: 'werde rufen',
+      du: 'wirst rufen',
+      'er/sie/es': 'wird rufen',
+      wir: 'werden rufen',
+      ihr: 'werdet rufen',
+      sie: 'werden rufen'
+    },
+    konjunktivI: {
+      ich: 'rufe',
+      du: 'rufest',
+      'er/sie/es': 'rufe',
+      wir: 'rufen',
+      ihr: 'rufet',
+      sie: 'rufen'
+    },
+    konjunktivII: {
+      ich: 'riefe',
+      du: 'riefest',
+      'er/sie/es': 'riefe',
+      wir: 'riefen',
+      ihr: 'riefet',
+      sie: 'riefen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich rufe dich.', english: 'I call you.', tense: 'präsens' },
+      { german: 'Sie rief um Hilfe.', english: 'She called for help.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v48',
+    infinitive: 'schlafen',
+    english: 'to sleep',
+    präsens: {
+      ich: 'schlafe',
+      du: 'schläfst',
+      'er/sie/es': 'schläft',
+      wir: 'schlafen',
+      ihr: 'schlaft',
+      sie: 'schlafen'
+    },
+    präteritum: {
+      ich: 'schlief',
+      du: 'schliefst',
+      'er/sie/es': 'schlief',
+      wir: 'schliefen',
+      ihr: 'schlieft',
+      sie: 'schliefen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'geschlafen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'geschlafen' },
+    futurI: {
+      ich: 'werde schlafen',
+      du: 'wirst schlafen',
+      'er/sie/es': 'wird schlafen',
+      wir: 'werden schlafen',
+      ihr: 'werdet schlafen',
+      sie: 'werden schlafen'
+    },
+    konjunktivI: {
+      ich: 'schlafe',
+      du: 'schlafest',
+      'er/sie/es': 'schlafe',
+      wir: 'schlafen',
+      ihr: 'schlafet',
+      sie: 'schlafen'
+    },
+    konjunktivII: {
+      ich: 'schliefe',
+      du: 'schliefest',
+      'er/sie/es': 'schliefe',
+      wir: 'schliefen',
+      ihr: 'schliefet',
+      sie: 'schliefen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    examples: [
+      { german: 'Ich schlafe gut.', english: 'I sleep well.', tense: 'präsens' },
+      { german: 'Er schlief lange.', english: 'He slept for a long time.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v49',
+    infinitive: 'tragen',
+    english: 'to carry/wear',
+    präsens: {
+      ich: 'trage',
+      du: 'trägst',
+      'er/sie/es': 'trägt',
+      wir: 'tragen',
+      ihr: 'tragt',
+      sie: 'tragen'
+    },
+    präteritum: {
+      ich: 'trug',
+      du: 'trugst',
+      'er/sie/es': 'trug',
+      wir: 'trugen',
+      ihr: 'trugt',
+      sie: 'trugen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'getragen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'getragen' },
+    futurI: {
+      ich: 'werde tragen',
+      du: 'wirst tragen',
+      'er/sie/es': 'wird tragen',
+      wir: 'werden tragen',
+      ihr: 'werdet tragen',
+      sie: 'werden tragen'
+    },
+    konjunktivI: {
+      ich: 'trage',
+      du: 'tragest',
+      'er/sie/es': 'trage',
+      wir: 'tragen',
+      ihr: 'traget',
+      sie: 'tragen'
+    },
+    konjunktivII: {
+      ich: 'trüge',
+      du: 'trügest',
+      'er/sie/es': 'trüge',
+      wir: 'trügen',
+      ihr: 'trüget',
+      sie: 'trügen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Sie trägt ein Kleid.', english: 'She wears a dress.', tense: 'präsens' },
+      { german: 'Er trug den Koffer.', english: 'He carried the suitcase.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v50',
+    infinitive: 'waschen',
+    english: 'to wash',
+    präsens: {
+      ich: 'wasche',
+      du: 'wäschst',
+      'er/sie/es': 'wäscht',
+      wir: 'waschen',
+      ihr: 'wascht',
+      sie: 'waschen'
+    },
+    präteritum: {
+      ich: 'wusch',
+      du: 'wuschst',
+      'er/sie/es': 'wusch',
+      wir: 'wuschen',
+      ihr: 'wuscht',
+      sie: 'wuschen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gewaschen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gewaschen' },
+    futurI: {
+      ich: 'werde waschen',
+      du: 'wirst waschen',
+      'er/sie/es': 'wird waschen',
+      wir: 'werden waschen',
+      ihr: 'werdet waschen',
+      sie: 'werden waschen'
+    },
+    konjunktivI: {
+      ich: 'wasche',
+      du: 'waschest',
+      'er/sie/es': 'wasche',
+      wir: 'waschen',
+      ihr: 'waschet',
+      sie: 'waschen'
+    },
+    konjunktivII: {
+      ich: 'wüsche',
+      du: 'wüschest',
+      'er/sie/es': 'wüsche',
+      wir: 'wüschen',
+      ihr: 'wüschet',
+      sie: 'wüschen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich wasche das Auto.', english: 'I wash the car.', tense: 'präsens' },
+      { german: 'Sie wusch die Wäsche.', english: 'She washed the laundry.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v51',
+    infinitive: 'ziehen',
+    english: 'to pull/move',
+    präsens: {
+      ich: 'ziehe',
+      du: 'ziehst',
+      'er/sie/es': 'zieht',
+      wir: 'ziehen',
+      ihr: 'zieht',
+      sie: 'ziehen'
+    },
+    präteritum: {
+      ich: 'zog',
+      du: 'zogst',
+      'er/sie/es': 'zog',
+      wir: 'zogen',
+      ihr: 'zogt',
+      sie: 'zogen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gezogen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gezogen' },
+    futurI: {
+      ich: 'werde ziehen',
+      du: 'wirst ziehen',
+      'er/sie/es': 'wird ziehen',
+      wir: 'werden ziehen',
+      ihr: 'werdet ziehen',
+      sie: 'werden ziehen'
+    },
+    konjunktivI: {
+      ich: 'ziehe',
+      du: 'ziehest',
+      'er/sie/es': 'ziehe',
+      wir: 'ziehen',
+      ihr: 'ziehet',
+      sie: 'ziehen'
+    },
+    konjunktivII: {
+      ich: 'zöge',
+      du: 'zögest',
+      'er/sie/es': 'zöge',
+      wir: 'zögen',
+      ihr: 'zöget',
+      sie: 'zögen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich ziehe an der Tür.', english: 'I pull on the door.', tense: 'präsens' },
+      { german: 'Sie zog nach Berlin.', english: 'She moved to Berlin.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v52',
+    infinitive: 'schließen',
+    english: 'to close',
+    präsens: {
+      ich: 'schließe',
+      du: 'schließt',
+      'er/sie/es': 'schließt',
+      wir: 'schließen',
+      ihr: 'schließt',
+      sie: 'schließen'
+    },
+    präteritum: {
+      ich: 'schloss',
+      du: 'schlossest',
+      'er/sie/es': 'schloss',
+      wir: 'schlossen',
+      ihr: 'schlosst',
+      sie: 'schlossen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'geschlossen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'geschlossen' },
+    futurI: {
+      ich: 'werde schließen',
+      du: 'wirst schließen',
+      'er/sie/es': 'wird schließen',
+      wir: 'werden schließen',
+      ihr: 'werdet schließen',
+      sie: 'werden schließen'
+    },
+    konjunktivI: {
+      ich: 'schließe',
+      du: 'schließest',
+      'er/sie/es': 'schließe',
+      wir: 'schließen',
+      ihr: 'schließet',
+      sie: 'schließen'
+    },
+    konjunktivII: {
+      ich: 'schlösse',
+      du: 'schlössest',
+      'er/sie/es': 'schlösse',
+      wir: 'schlössen',
+      ihr: 'schlösset',
+      sie: 'schlössen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich schließe die Tür.', english: 'I close the door.', tense: 'präsens' },
+      { german: 'Er schloss das Fenster.', english: 'He closed the window.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v53',
+    infinitive: 'verlieren',
+    english: 'to lose',
+    präsens: {
+      ich: 'verliere',
+      du: 'verlierst',
+      'er/sie/es': 'verliert',
+      wir: 'verlieren',
+      ihr: 'verliert',
+      sie: 'verlieren'
+    },
+    präteritum: {
+      ich: 'verlor',
+      du: 'verlorst',
+      'er/sie/es': 'verlor',
+      wir: 'verloren',
+      ihr: 'verlort',
+      sie: 'verloren'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'verloren' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'verloren' },
+    futurI: {
+      ich: 'werde verlieren',
+      du: 'wirst verlieren',
+      'er/sie/es': 'wird verlieren',
+      wir: 'werden verlieren',
+      ihr: 'werdet verlieren',
+      sie: 'werden verlieren'
+    },
+    konjunktivI: {
+      ich: 'verliere',
+      du: 'verlierest',
+      'er/sie/es': 'verliere',
+      wir: 'verlieren',
+      ihr: 'verlieret',
+      sie: 'verlieren'
+    },
+    konjunktivII: {
+      ich: 'verlöre',
+      du: 'verlörest',
+      'er/sie/es': 'verlöre',
+      wir: 'verlören',
+      ihr: 'verlöret',
+      sie: 'verlören'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Ich verliere meinen Schlüssel.', english: 'I lose my key.', tense: 'präsens' },
+      { german: 'Sie verlor das Spiel.', english: 'She lost the game.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v54',
+    infinitive: 'gewinnen',
+    english: 'to win',
+    präsens: {
+      ich: 'gewinne',
+      du: 'gewinnst',
+      'er/sie/es': 'gewinnt',
+      wir: 'gewinnen',
+      ihr: 'gewinnt',
+      sie: 'gewinnen'
+    },
+    präteritum: {
+      ich: 'gewann',
+      du: 'gewannst',
+      'er/sie/es': 'gewann',
+      wir: 'gewannen',
+      ihr: 'gewannt',
+      sie: 'gewannen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'gewonnen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'gewonnen' },
+    futurI: {
+      ich: 'werde gewinnen',
+      du: 'wirst gewinnen',
+      'er/sie/es': 'wird gewinnen',
+      wir: 'werden gewinnen',
+      ihr: 'werdet gewinnen',
+      sie: 'werden gewinnen'
+    },
+    konjunktivI: {
+      ich: 'gewinne',
+      du: 'gewinnest',
+      'er/sie/es': 'gewinne',
+      wir: 'gewinnen',
+      ihr: 'gewinnet',
+      sie: 'gewinnen'
+    },
+    konjunktivII: {
+      ich: 'gewönne',
+      du: 'gewönnest',
+      'er/sie/es': 'gewönne',
+      wir: 'gewönnen',
+      ihr: 'gewönnet',
+      sie: 'gewönnen'
+    },
+    difficulty: 'intermediate',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Wer gewinnt?', english: 'Who wins?', tense: 'präsens' },
+      { german: 'Er gewann den Preis.', english: 'He won the prize.', tense: 'präteritum' }
+    ]
+  },
+  {
+    id: 'v55',
+    infinitive: 'beginnen',
+    english: 'to begin',
+    präsens: {
+      ich: 'beginne',
+      du: 'beginnst',
+      'er/sie/es': 'beginnt',
+      wir: 'beginnen',
+      ihr: 'beginnt',
+      sie: 'beginnen'
+    },
+    präteritum: {
+      ich: 'begann',
+      du: 'begannst',
+      'er/sie/es': 'begann',
+      wir: 'begannen',
+      ihr: 'begannt',
+      sie: 'begannen'
+    },
+    perfekt: { auxiliary: 'haben', participle: 'begonnen' },
+    plusquamperfekt: { auxiliary: 'haben', participle: 'begonnen' },
+    futurI: {
+      ich: 'werde beginnen',
+      du: 'wirst beginnen',
+      'er/sie/es': 'wird beginnen',
+      wir: 'werden beginnen',
+      ihr: 'werdet beginnen',
+      sie: 'werden beginnen'
+    },
+    konjunktivI: {
+      ich: 'beginne',
+      du: 'beginnest',
+      'er/sie/es': 'beginne',
+      wir: 'beginnen',
+      ihr: 'beginnet',
+      sie: 'beginnen'
+    },
+    konjunktivII: {
+      ich: 'begönne',
+      du: 'begönnest',
+      'er/sie/es': 'begönne',
+      wir: 'begönnen',
+      ihr: 'begönnet',
+      sie: 'begönnen'
+    },
+    difficulty: 'beginner',
+    category: 'irregular',
+    caseRequired: 'akkusativ',
+    examples: [
+      { german: 'Der Film beginnt um 8.', english: 'The movie begins at 8.', tense: 'präsens' },
+      { german: 'Es begann zu regnen.', english: 'It began to rain.', tense: 'präteritum' }
+    ]
   }
 ];
 
