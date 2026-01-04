@@ -13,8 +13,9 @@ import { SentenceBuilder } from './SentenceBuilder';
 import { ListeningExercise } from './ListeningExercise';
 import { VerbConjugationQuiz } from './VerbConjugationQuiz';
 import { VerbFlashcards } from './VerbFlashcards';
+import { CaseQuiz } from './CaseQuiz';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -25,7 +26,7 @@ import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -219,6 +220,11 @@ export const HomeScreen = () => {
     return <VerbFlashcards onBack={handleBack} />;
   }
   
+  // Case Quiz View
+  if (activeView === 'caseQuiz') {
+    return <CaseQuiz onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -375,6 +381,15 @@ export const HomeScreen = () => {
           >
             <Layers className="w-5 h-5" />
             <span className="text-[10px]">Flashcards</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('caseQuiz')}
+          >
+            <Scale className="w-5 h-5" />
+            <span className="text-[10px]">Cases</span>
           </Button>
         </div>
 
