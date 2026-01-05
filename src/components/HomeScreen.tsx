@@ -17,8 +17,10 @@ import { CaseQuiz } from './CaseQuiz';
 import { PrepositionQuiz } from './PrepositionQuiz';
 import { NumbersAndTime } from './NumbersAndTime';
 import { ProgressDashboard } from './ProgressDashboard';
+import ReadingComprehension from './ReadingComprehension';
+import WritingPractice from './WritingPractice';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, Clock, BarChart3 } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, Clock, BarChart3, BookMarked, PenLine } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -29,7 +31,7 @@ import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' | 'prepositions' | 'numbersTime' | 'dashboard'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -243,6 +245,16 @@ export const HomeScreen = () => {
     return <ProgressDashboard onBack={handleBack} />;
   }
   
+  // Reading Comprehension View
+  if (activeView === 'reading') {
+    return <ReadingComprehension onBack={handleBack} />;
+  }
+  
+  // Writing Practice View
+  if (activeView === 'writing') {
+    return <WritingPractice onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -435,6 +447,24 @@ export const HomeScreen = () => {
           >
             <BarChart3 className="w-5 h-5" />
             <span className="text-[10px]">Stats</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('reading')}
+          >
+            <BookMarked className="w-5 h-5" />
+            <span className="text-[10px]">Reading</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('writing')}
+          >
+            <PenLine className="w-5 h-5" />
+            <span className="text-[10px]">Writing</span>
           </Button>
         </div>
 
