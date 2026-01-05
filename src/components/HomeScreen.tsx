@@ -19,8 +19,9 @@ import { NumbersAndTime } from './NumbersAndTime';
 import { ProgressDashboard } from './ProgressDashboard';
 import ReadingComprehension from './ReadingComprehension';
 import WritingPractice from './WritingPractice';
+import ConversationPractice from './ConversationPractice';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, Clock, BarChart3, BookMarked, PenLine } from 'lucide-react';
+import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, Clock, BarChart3, BookMarked, PenLine, Users } from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -31,7 +32,7 @@ import { toast } from 'sonner';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' | 'conversations'>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
@@ -255,6 +256,11 @@ export const HomeScreen = () => {
     return <WritingPractice onBack={handleBack} />;
   }
   
+  // Conversation Practice View
+  if (activeView === 'conversations') {
+    return <ConversationPractice onBack={handleBack} />;
+  }
+  
   // Quiz View
   if (activeView === 'quiz') {
     return (
@@ -465,6 +471,15 @@ export const HomeScreen = () => {
           >
             <PenLine className="w-5 h-5" />
             <span className="text-[10px]">Writing</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="h-auto py-3 flex-col gap-1"
+            onClick={() => setActiveView('conversations')}
+          >
+            <Users className="w-5 h-5" />
+            <span className="text-[10px]">Dialogs</span>
           </Button>
         </div>
 
