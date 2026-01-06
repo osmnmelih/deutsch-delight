@@ -317,3 +317,48 @@ export const getExercisesByCategory = (category: string): ListeningExercise[] =>
 export const getExercisesByDifficulty = (difficulty: string): ListeningExercise[] => {
   return listeningExercises.filter(e => e.difficulty === difficulty);
 };
+
+// Dictation Exercise Types and Data
+export interface ListeningDictation {
+  id: string;
+  level: 'A1' | 'A2' | 'B1' | 'B2';
+  german: string;
+  english: string;
+  audioSpeed: 'slow' | 'normal' | 'fast';
+  hints: string[];
+  keyWords: string[];
+}
+
+export const listeningDictations: ListeningDictation[] = [
+  // A1 Level
+  { id: 'a1-1', level: 'A1', german: 'Ich heiße Maria.', english: 'My name is Maria.', audioSpeed: 'slow', hints: ['Start with "Ich"', 'Common greeting phrase'], keyWords: ['heiße'] },
+  { id: 'a1-2', level: 'A1', german: 'Das Wetter ist schön.', english: 'The weather is nice.', audioSpeed: 'slow', hints: ['Neutral article "Das"', 'Weather vocabulary'], keyWords: ['Wetter', 'schön'] },
+  { id: 'a1-3', level: 'A1', german: 'Ich trinke gern Kaffee.', english: 'I like to drink coffee.', audioSpeed: 'slow', hints: ['"gern" expresses preference', 'Common verb "trinken"'], keyWords: ['trinke', 'gern', 'Kaffee'] },
+  { id: 'a1-4', level: 'A1', german: 'Wo ist die Toilette?', english: 'Where is the toilet?', audioSpeed: 'slow', hints: ['Question word "Wo"', 'Feminine article "die"'], keyWords: ['Wo', 'Toilette'] },
+  { id: 'a1-5', level: 'A1', german: 'Ich komme aus Deutschland.', english: 'I come from Germany.', audioSpeed: 'slow', hints: ['Origin phrase with "aus"'], keyWords: ['komme', 'aus', 'Deutschland'] },
+  { id: 'a1-6', level: 'A1', german: 'Heute ist Montag.', english: 'Today is Monday.', audioSpeed: 'slow', hints: ['Time expression "Heute"'], keyWords: ['Heute', 'Montag'] },
+  { id: 'a1-7', level: 'A1', german: 'Ich habe einen Hund.', english: 'I have a dog.', audioSpeed: 'slow', hints: ['Accusative article "einen"'], keyWords: ['habe', 'einen', 'Hund'] },
+  { id: 'a1-8', level: 'A1', german: 'Das Buch ist interessant.', english: 'The book is interesting.', audioSpeed: 'slow', hints: ['Neutral article "Das"'], keyWords: ['Buch', 'interessant'] },
+  // A2 Level
+  { id: 'a2-1', level: 'A2', german: 'Ich gehe morgen ins Kino.', english: 'I am going to the cinema tomorrow.', audioSpeed: 'normal', hints: ['Time word "morgen" before place', '"ins" = in das'], keyWords: ['morgen', 'ins', 'Kino'] },
+  { id: 'a2-2', level: 'A2', german: 'Sie hat gestern einen Brief geschrieben.', english: 'She wrote a letter yesterday.', audioSpeed: 'normal', hints: ['Perfect tense with "haben"', 'Participle at the end'], keyWords: ['gestern', 'Brief', 'geschrieben'] },
+  { id: 'a2-3', level: 'A2', german: 'Wir müssen früh aufstehen.', english: 'We have to get up early.', audioSpeed: 'normal', hints: ['Modal verb "müssen"', 'Separable verb "aufstehen"'], keyWords: ['müssen', 'früh', 'aufstehen'] },
+  { id: 'a2-4', level: 'A2', german: 'Der Zug fährt um acht Uhr ab.', english: 'The train departs at eight o\'clock.', audioSpeed: 'normal', hints: ['Separable verb "abfahren"', 'Time expression with "um"'], keyWords: ['Zug', 'fährt', 'acht', 'ab'] },
+  { id: 'a2-5', level: 'A2', german: 'Kannst du mir bitte helfen?', english: 'Can you please help me?', audioSpeed: 'normal', hints: ['Modal verb "können"', 'Dative pronoun "mir"'], keyWords: ['Kannst', 'mir', 'helfen'] },
+  { id: 'a2-6', level: 'A2', german: 'Ich habe Hunger und Durst.', english: 'I am hungry and thirsty.', audioSpeed: 'normal', hints: ['Compound sentence with "und"'], keyWords: ['Hunger', 'und', 'Durst'] },
+  // B1 Level
+  { id: 'b1-1', level: 'B1', german: 'Obwohl es regnet, gehen wir spazieren.', english: 'Although it is raining, we are going for a walk.', audioSpeed: 'normal', hints: ['Subordinate clause with "obwohl"', 'Verb at end of first clause'], keyWords: ['Obwohl', 'regnet', 'spazieren'] },
+  { id: 'b1-2', level: 'B1', german: 'Ich würde gern nach Berlin fahren.', english: 'I would like to go to Berlin.', audioSpeed: 'normal', hints: ['Subjunctive "würde"', 'Destination with "nach"'], keyWords: ['würde', 'gern', 'Berlin', 'fahren'] },
+  { id: 'b1-3', level: 'B1', german: 'Als ich jung war, spielte ich Fußball.', english: 'When I was young, I played soccer.', audioSpeed: 'normal', hints: ['Temporal clause with "als"', 'Simple past "spielte"'], keyWords: ['Als', 'jung', 'spielte', 'Fußball'] },
+  { id: 'b1-4', level: 'B1', german: 'Er hat mich gefragt, ob ich morgen Zeit habe.', english: 'He asked me if I have time tomorrow.', audioSpeed: 'normal', hints: ['Indirect question with "ob"'], keyWords: ['gefragt', 'ob', 'morgen', 'Zeit'] },
+  { id: 'b1-5', level: 'B1', german: 'Nachdem ich gegessen hatte, bin ich spazieren gegangen.', english: 'After I had eaten, I went for a walk.', audioSpeed: 'normal', hints: ['Past perfect in first clause', 'Perfect tense in main clause'], keyWords: ['Nachdem', 'gegessen', 'spazieren', 'gegangen'] },
+  // B2 Level
+  { id: 'b2-1', level: 'B2', german: 'Hätte ich das gewusst, wäre ich früher gekommen.', english: 'Had I known that, I would have come earlier.', audioSpeed: 'fast', hints: ['Subjunctive II conditional', 'Past conditional structure'], keyWords: ['Hätte', 'gewusst', 'wäre', 'gekommen'] },
+  { id: 'b2-2', level: 'B2', german: 'Je mehr ich lerne, desto besser verstehe ich die Grammatik.', english: 'The more I learn, the better I understand the grammar.', audioSpeed: 'fast', hints: ['Comparative construction "je...desto"'], keyWords: ['Je', 'desto', 'besser', 'Grammatik'] },
+  { id: 'b2-3', level: 'B2', german: 'Die Firma, bei der ich arbeite, expandiert nach Asien.', english: 'The company where I work is expanding to Asia.', audioSpeed: 'fast', hints: ['Relative clause with preposition'], keyWords: ['Firma', 'bei der', 'expandiert', 'Asien'] },
+  { id: 'b2-4', level: 'B2', german: 'Anstatt zu Hause zu bleiben, sind wir ins Museum gegangen.', english: 'Instead of staying at home, we went to the museum.', audioSpeed: 'fast', hints: ['Infinitive clause with "anstatt...zu"'], keyWords: ['Anstatt', 'bleiben', 'Museum', 'gegangen'] },
+];
+
+export const getLevelDictations = (level: 'A1' | 'A2' | 'B1' | 'B2'): ListeningDictation[] => {
+  return listeningDictations.filter(d => d.level === level);
+};
