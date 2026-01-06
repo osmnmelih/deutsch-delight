@@ -20,8 +20,19 @@ import { ProgressDashboard } from './ProgressDashboard';
 import ReadingComprehension from './ReadingComprehension';
 import WritingPractice from './WritingPractice';
 import ConversationPractice from './ConversationPractice';
+import DictationExercise from './DictationExercise';
+import CultureIdioms from './CultureIdioms';
+import PhraseReview from './PhraseReview';
 import { Button } from '@/components/ui/button';
-import { Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, Clock, BarChart3, BookMarked, PenLine, Users } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Sparkles, BookOpen, Brain, Flame, List, GraduationCap, FileQuestion, 
+  Languages, MessageSquare, Headphones, Layers, Scale, ArrowLeftRight, 
+  Clock, BarChart3, BookMarked, PenLine, Users, Keyboard, Globe, 
+  MessageCircle, ChevronRight
+} from 'lucide-react';
 import { lessonCategories } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
 import { vocabularyWords } from '@/data/vocabulary';
@@ -30,14 +41,51 @@ import { useDailyGoals } from '@/hooks/useDailyGoals';
 import { QuestionType } from '@/types/quiz';
 import { toast } from 'sonner';
 
+type ActiveView = 
+  | 'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' 
+  | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' 
+  | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' 
+  | 'conversations' | 'dictation' | 'culture' | 'phraseReview';
+
+interface SkillButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  variant?: 'default' | 'primary' | 'accent';
+  badge?: string;
+}
+
+const SkillButton = ({ icon, label, onClick, variant = 'default', badge }: SkillButtonProps) => {
+  const variants = {
+    default: 'bg-card hover:bg-muted border border-border',
+    primary: 'bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary',
+    accent: 'bg-secondary/10 hover:bg-secondary/20 border border-secondary/30 text-secondary',
+  };
+  
+  return (
+    <button
+      onClick={onClick}
+      className={`${variants[variant]} rounded-xl p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-105 relative`}
+    >
+      {badge && (
+        <Badge className="absolute -top-1.5 -right-1.5 text-[10px] px-1.5 py-0 bg-accent text-accent-foreground">
+          {badge}
+        </Badge>
+      )}
+      {icon}
+      <span className="text-[11px] font-medium text-center leading-tight">{label}</span>
+    </button>
+  );
+};
+
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' | 'conversations'>('home');
+  const [activeView, setActiveView] = useState<ActiveView>('home');
   const [gameWords, setGameWords] = useState<VocabularyWord[]>([]);
   const [categories, setCategories] = useState(lessonCategories);
   const [quizType, setQuizType] = useState<QuestionType | 'mixed'>('mixed');
+  const [activeTab, setActiveTab] = useState('practice');
   
-  // SRS Hook
   const { 
     isLoaded: srsLoaded,
     getNextWords, 
@@ -48,7 +96,6 @@ export const HomeScreen = () => {
     getSRSData
   } = useSRS(vocabularyWords);
   
-  // Daily Goals Hook
   const { 
     dailyProgress,
     newAchievements, 
@@ -57,7 +104,6 @@ export const HomeScreen = () => {
     clearNewAchievements
   } = useDailyGoals();
 
-  // Show achievement notifications
   useEffect(() => {
     if (newAchievements.length > 0) {
       newAchievements.forEach(achievement => {
@@ -71,7 +117,6 @@ export const HomeScreen = () => {
     }
   }, [newAchievements, clearNewAchievements]);
 
-  // Calculate stats from SRS
   const globalStats = useMemo(() => getStats(), [getStats]);
   
   const [progress, setProgress] = useState<UserProgress>({
@@ -82,7 +127,6 @@ export const HomeScreen = () => {
     incorrectAnswers: 0,
   });
   
-  // Update progress when SRS is loaded or daily progress changes
   useMemo(() => {
     if (srsLoaded) {
       setProgress(prev => ({
@@ -116,32 +160,10 @@ export const HomeScreen = () => {
     setActiveGame('review-due');
   };
   
-  const handleOpenVocabulary = () => {
-    setActiveView('vocabulary');
-  };
-  
-  const handleOpenGrammar = () => {
-    setActiveView('grammar');
-  };
-  
-  const handleOpenVerbs = () => {
-    setActiveView('verbs');
-  };
-  
   const handleOpenQuiz = (type: QuestionType | 'mixed' = 'mixed') => {
     setQuizType(type);
     setGameWords(vocabularyWords);
     setActiveView('quiz');
-  };
-  
-  const handleViewAchievements = () => {
-    setActiveView('achievements');
-  };
-  
-  const handlePracticeWord = (word: VocabularyWord) => {
-    setGameWords([word]);
-    setActiveGame('single-word');
-    setActiveView('home');
   };
 
   const handleGameComplete = (correct: number, incorrect: number) => {
@@ -153,7 +175,6 @@ export const HomeScreen = () => {
       masteredWords: newStats.mastered,
     }));
 
-    // Record for daily goals
     for (let i = 0; i < correct; i++) {
       recordWordLearned();
     }
@@ -177,102 +198,39 @@ export const HomeScreen = () => {
     setActiveView('home');
     setGameWords([]);
   };
+  
+  const handlePracticeWord = (word: VocabularyWord) => {
+    setGameWords([word]);
+    setActiveGame('single-word');
+    setActiveView('home');
+  };
 
-  // Vocabulary List View
-  if (activeView === 'vocabulary') {
-    return (
-      <VocabularyList
-        words={vocabularyWords}
-        getSRSData={getSRSData}
-        getWordDifficulty={getWordDifficulty}
-        onBack={handleBack}
-        onPracticeWord={handlePracticeWord}
-      />
-    );
-  }
-  
-  // Grammar Lessons View
-  if (activeView === 'grammar') {
-    return <GrammarLessons onBack={handleBack} />;
-  }
-  
-  // Verb Lessons View
-  if (activeView === 'verbs') {
-    return <VerbLessons onBack={handleBack} />;
-  }
-  
-  // Achievements View
-  if (activeView === 'achievements') {
-    return <AchievementsView onBack={handleBack} />;
-  }
-  
-  // Sentence Builder View
-  if (activeView === 'sentences') {
-    return <SentenceBuilder onBack={handleBack} />;
-  }
-  
-  // Listening Exercise View
-  if (activeView === 'listening') {
-    return <ListeningExercise onBack={handleBack} />;
-  }
-  
-  // Verb Conjugation Quiz View
-  if (activeView === 'verbQuiz') {
-    return <VerbConjugationQuiz onBack={handleBack} />;
-  }
-  
-  // Verb Flashcards View
-  if (activeView === 'verbFlashcards') {
-    return <VerbFlashcards onBack={handleBack} />;
-  }
-  
-  // Case Quiz View
-  if (activeView === 'caseQuiz') {
-    return <CaseQuiz onBack={handleBack} />;
-  }
-  
-  // Preposition Quiz View
-  if (activeView === 'prepositions') {
-    return <PrepositionQuiz onBack={handleBack} />;
-  }
-  
-  // Numbers & Time View
-  if (activeView === 'numbersTime') {
-    return <NumbersAndTime onBack={handleBack} />;
-  }
-  
-  // Progress Dashboard View
-  if (activeView === 'dashboard') {
-    return <ProgressDashboard onBack={handleBack} />;
-  }
-  
-  // Reading Comprehension View
-  if (activeView === 'reading') {
-    return <ReadingComprehension onBack={handleBack} />;
-  }
-  
-  // Writing Practice View
-  if (activeView === 'writing') {
-    return <WritingPractice onBack={handleBack} />;
-  }
-  
-  // Conversation Practice View
-  if (activeView === 'conversations') {
-    return <ConversationPractice onBack={handleBack} />;
-  }
-  
-  // Quiz View
-  if (activeView === 'quiz') {
-    return (
-      <Quiz
-        words={gameWords}
-        allWords={vocabularyWords}
-        onBack={handleBack}
-        onComplete={handleQuizComplete}
-        onRecordReview={recordReview}
-        quizType={quizType}
-      />
-    );
+  // View rendering
+  const viewComponents: Record<ActiveView, JSX.Element | null> = {
+    home: null,
+    vocabulary: <VocabularyList words={vocabularyWords} getSRSData={getSRSData} getWordDifficulty={getWordDifficulty} onBack={handleBack} onPracticeWord={handlePracticeWord} />,
+    grammar: <GrammarLessons onBack={handleBack} />,
+    verbs: <VerbLessons onBack={handleBack} />,
+    achievements: <AchievementsView onBack={handleBack} />,
+    sentences: <SentenceBuilder onBack={handleBack} />,
+    listening: <ListeningExercise onBack={handleBack} />,
+    verbQuiz: <VerbConjugationQuiz onBack={handleBack} />,
+    verbFlashcards: <VerbFlashcards onBack={handleBack} />,
+    caseQuiz: <CaseQuiz onBack={handleBack} />,
+    prepositions: <PrepositionQuiz onBack={handleBack} />,
+    numbersTime: <NumbersAndTime onBack={handleBack} />,
+    dashboard: <ProgressDashboard onBack={handleBack} />,
+    reading: <ReadingComprehension onBack={handleBack} />,
+    writing: <WritingPractice onBack={handleBack} />,
+    conversations: <ConversationPractice onBack={handleBack} />,
+    dictation: <DictationExercise onBack={handleBack} />,
+    culture: <CultureIdioms onBack={handleBack} />,
+    phraseReview: <PhraseReview onBack={handleBack} />,
+    quiz: <Quiz words={gameWords} allWords={vocabularyWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={recordReview} quizType={quizType} />,
+  };
+
+  if (activeView !== 'home' && viewComponents[activeView]) {
+    return viewComponents[activeView];
   }
 
   if (activeGame && gameWords.length > 0) {
@@ -291,243 +249,275 @@ export const HomeScreen = () => {
     <div className="min-h-screen bg-background safe-area-inset">
       <Header progress={progress} />
       
-      <main className="container px-4 py-6 space-y-6">
-        {/* Welcome Section */}
-        <div className="animate-slide-up">
-          <h2 className="font-heading text-2xl font-bold text-foreground">
-            Guten Tag! 👋
-          </h2>
-          <p className="text-muted-foreground mt-1">
-            Ready to learn some German?
-          </p>
+      <main className="container px-4 py-4 space-y-4">
+        {/* Welcome & Quick Start */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-xl font-bold text-foreground">Guten Tag! 👋</h2>
+            <p className="text-sm text-muted-foreground">Ready to learn German?</p>
+          </div>
+          <Button onClick={handleQuickPractice} className="gap-2">
+            <Sparkles className="w-4 h-4" />
+            Quick Start
+          </Button>
         </div>
 
-        {/* SRS Stats Banner */}
+        {/* SRS Review Banner */}
         {srsLoaded && globalStats.dueNow > 0 && (
           <button 
             onClick={handleReviewDue}
-            className="w-full bg-gradient-to-r from-primary to-accent p-4 rounded-2xl text-left animate-slide-up flex items-center justify-between"
-            style={{ animationDelay: '50ms' }}
+            className="w-full bg-gradient-to-r from-primary to-accent p-3 rounded-xl text-left flex items-center justify-between shadow-md"
           >
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-background/20 flex items-center justify-center">
-                <Brain className="w-6 h-6 text-primary-foreground" />
+              <div className="w-10 h-10 rounded-full bg-background/20 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <p className="font-heading font-bold text-primary-foreground">
+                <p className="font-heading font-bold text-primary-foreground text-sm">
                   {globalStats.dueNow} words to review
                 </p>
-                <p className="text-sm text-primary-foreground/80">
-                  Tap to practice due words
-                </p>
+                <p className="text-xs text-primary-foreground/80">Tap to practice due words</p>
               </div>
             </div>
-            <Flame className="w-6 h-6 text-primary-foreground animate-pulse" />
+            <Flame className="w-5 h-5 text-primary-foreground animate-pulse" />
           </button>
         )}
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-5 gap-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
-          <Button 
-            variant="primary" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={handleQuickPractice}
-          >
-            <Sparkles className="w-5 h-5" />
-            <span className="text-[10px]">Practice</span>
-          </Button>
-          <Button 
-            variant="secondary" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => handleOpenQuiz('mixed')}
-          >
-            <FileQuestion className="w-5 h-5" />
-            <span className="text-[10px]">Quiz</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={handleReviewDue}
-          >
-            <BookOpen className="w-5 h-5" />
-            <span className="text-[10px]">Review</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={handleOpenVocabulary}
-          >
-            <List className="w-5 h-5" />
-            <span className="text-[10px]">Words</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={handleOpenGrammar}
-          >
-            <GraduationCap className="w-5 h-5" />
-            <span className="text-[10px]">Grammar</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={handleOpenVerbs}
-          >
-            <Languages className="w-5 h-5" />
-            <span className="text-[10px]">Verbs</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('sentences')}
-          >
-            <MessageSquare className="w-5 h-5" />
-            <span className="text-[10px]">Sentences</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('listening')}
-          >
-            <Headphones className="w-5 h-5" />
-            <span className="text-[10px]">Listening</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('verbQuiz')}
-          >
-            <Languages className="w-5 h-5" />
-            <span className="text-[10px]">Verb Quiz</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('verbFlashcards')}
-          >
-            <Layers className="w-5 h-5" />
-            <span className="text-[10px]">Flashcards</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('caseQuiz')}
-          >
-            <Scale className="w-5 h-5" />
-            <span className="text-[10px]">Cases</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('prepositions')}
-          >
-            <ArrowLeftRight className="w-5 h-5" />
-            <span className="text-[10px]">Preps</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('numbersTime')}
-          >
-            <Clock className="w-5 h-5" />
-            <span className="text-[10px]">Numbers</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('dashboard')}
-          >
-            <BarChart3 className="w-5 h-5" />
-            <span className="text-[10px]">Stats</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('reading')}
-          >
-            <BookMarked className="w-5 h-5" />
-            <span className="text-[10px]">Reading</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('writing')}
-          >
-            <PenLine className="w-5 h-5" />
-            <span className="text-[10px]">Writing</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="h-auto py-3 flex-col gap-1"
-            onClick={() => setActiveView('conversations')}
-          >
-            <Users className="w-5 h-5" />
-            <span className="text-[10px]">Dialogs</span>
-          </Button>
-        </div>
+        {/* Main Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4 h-10">
+            <TabsTrigger value="practice" className="text-xs">Practice</TabsTrigger>
+            <TabsTrigger value="learn" className="text-xs">Learn</TabsTrigger>
+            <TabsTrigger value="skills" className="text-xs">Skills</TabsTrigger>
+            <TabsTrigger value="explore" className="text-xs">Explore</TabsTrigger>
+          </TabsList>
 
-        {/* Daily Goals Card */}
-        <DailyGoalsCard onViewAchievements={handleViewAchievements} />
-
-        {/* Progress Card with SRS Stats */}
-        <ProgressCard progress={progress} />
-        
-        {/* SRS Learning Stats */}
-        <div className="card-elevated p-4 animate-slide-up" style={{ animationDelay: '150ms' }}>
-          <div className="flex items-center gap-2 mb-3">
-            <Brain className="w-5 h-5 text-primary" />
-            <h3 className="font-heading font-semibold">Spaced Repetition</h3>
-          </div>
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-incorrect/10 p-3 rounded-xl">
-              <p className="text-2xl font-bold text-incorrect">{globalStats.dueNow}</p>
-              <p className="text-xs text-muted-foreground">Due Now</p>
-            </div>
-            <div className="bg-primary/10 p-3 rounded-xl">
-              <p className="text-2xl font-bold text-primary">{globalStats.learning}</p>
-              <p className="text-xs text-muted-foreground">Learning</p>
-            </div>
-            <div className="bg-correct/10 p-3 rounded-xl">
-              <p className="text-2xl font-bold text-correct">{globalStats.mastered}</p>
-              <p className="text-xs text-muted-foreground">Mastered</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Lessons */}
-        <section>
-          <h3 className="font-heading font-semibold text-lg mb-3">Lessons</h3>
-          <div className="space-y-3">
-            {categories.map((lesson, index) => (
-              <LessonCard 
-                key={lesson.id} 
-                lesson={lesson} 
-                onSelect={handleSelectLesson}
-                index={index}
+          {/* Practice Tab */}
+          <TabsContent value="practice" className="mt-4 space-y-4">
+            <div className="grid grid-cols-4 gap-2">
+              <SkillButton 
+                icon={<Sparkles className="w-5 h-5" />} 
+                label="Practice" 
+                onClick={handleQuickPractice}
+                variant="primary"
               />
-            ))}
-          </div>
-        </section>
+              <SkillButton 
+                icon={<FileQuestion className="w-5 h-5" />} 
+                label="Quiz" 
+                onClick={() => handleOpenQuiz('mixed')}
+              />
+              <SkillButton 
+                icon={<BookOpen className="w-5 h-5" />} 
+                label="Review" 
+                onClick={handleReviewDue}
+                badge={globalStats.dueNow > 0 ? `${globalStats.dueNow}` : undefined}
+              />
+              <SkillButton 
+                icon={<Layers className="w-5 h-5" />} 
+                label="Flashcards" 
+                onClick={() => setActiveView('verbFlashcards')}
+              />
+            </div>
 
-        {/* Bottom Spacing for iOS */}
-        <div className="h-8" />
+            {/* Daily Goals */}
+            <DailyGoalsCard onViewAchievements={() => setActiveView('achievements')} />
+
+            {/* SRS Stats */}
+            <Card className="card-elevated">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <Brain className="w-4 h-4 text-primary" />
+                  <span className="font-heading font-semibold text-sm">Spaced Repetition</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="bg-incorrect/10 p-2 rounded-lg">
+                    <p className="text-lg font-bold text-incorrect">{globalStats.dueNow}</p>
+                    <p className="text-[10px] text-muted-foreground">Due</p>
+                  </div>
+                  <div className="bg-primary/10 p-2 rounded-lg">
+                    <p className="text-lg font-bold text-primary">{globalStats.learning}</p>
+                    <p className="text-[10px] text-muted-foreground">Learning</p>
+                  </div>
+                  <div className="bg-correct/10 p-2 rounded-lg">
+                    <p className="text-lg font-bold text-correct">{globalStats.mastered}</p>
+                    <p className="text-[10px] text-muted-foreground">Mastered</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Learn Tab */}
+          <TabsContent value="learn" className="mt-4 space-y-4">
+            <div className="grid grid-cols-4 gap-2">
+              <SkillButton 
+                icon={<List className="w-5 h-5" />} 
+                label="Vocabulary" 
+                onClick={() => setActiveView('vocabulary')}
+              />
+              <SkillButton 
+                icon={<GraduationCap className="w-5 h-5" />} 
+                label="Grammar" 
+                onClick={() => setActiveView('grammar')}
+              />
+              <SkillButton 
+                icon={<Languages className="w-5 h-5" />} 
+                label="Verbs" 
+                onClick={() => setActiveView('verbs')}
+              />
+              <SkillButton 
+                icon={<Scale className="w-5 h-5" />} 
+                label="Cases" 
+                onClick={() => setActiveView('caseQuiz')}
+              />
+              <SkillButton 
+                icon={<ArrowLeftRight className="w-5 h-5" />} 
+                label="Preps" 
+                onClick={() => setActiveView('prepositions')}
+              />
+              <SkillButton 
+                icon={<Clock className="w-5 h-5" />} 
+                label="Numbers" 
+                onClick={() => setActiveView('numbersTime')}
+              />
+              <SkillButton 
+                icon={<MessageSquare className="w-5 h-5" />} 
+                label="Sentences" 
+                onClick={() => setActiveView('sentences')}
+              />
+              <SkillButton 
+                icon={<Languages className="w-5 h-5" />} 
+                label="Verb Quiz" 
+                onClick={() => setActiveView('verbQuiz')}
+              />
+            </div>
+
+            {/* Word Categories */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-heading font-semibold text-sm">Word Categories</h3>
+                <Button variant="ghost" size="sm" onClick={() => setActiveView('vocabulary')} className="text-xs gap-1">
+                  See all <ChevronRight className="w-3 h-3" />
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {categories.slice(0, 4).map((lesson, index) => (
+                  <LessonCard 
+                    key={lesson.id} 
+                    lesson={lesson} 
+                    onSelect={handleSelectLesson}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* Skills Tab */}
+          <TabsContent value="skills" className="mt-4 space-y-4">
+            <div className="grid grid-cols-4 gap-2">
+              <SkillButton 
+                icon={<Headphones className="w-5 h-5" />} 
+                label="Listening" 
+                onClick={() => setActiveView('listening')}
+              />
+              <SkillButton 
+                icon={<Keyboard className="w-5 h-5" />} 
+                label="Dictation" 
+                onClick={() => setActiveView('dictation')}
+                variant="accent"
+              />
+              <SkillButton 
+                icon={<BookMarked className="w-5 h-5" />} 
+                label="Reading" 
+                onClick={() => setActiveView('reading')}
+              />
+              <SkillButton 
+                icon={<PenLine className="w-5 h-5" />} 
+                label="Writing" 
+                onClick={() => setActiveView('writing')}
+              />
+              <SkillButton 
+                icon={<Users className="w-5 h-5" />} 
+                label="Dialogs" 
+                onClick={() => setActiveView('conversations')}
+              />
+              <SkillButton 
+                icon={<MessageCircle className="w-5 h-5" />} 
+                label="Phrases" 
+                onClick={() => setActiveView('phraseReview')}
+                variant="primary"
+              />
+              <SkillButton 
+                icon={<BarChart3 className="w-5 h-5" />} 
+                label="Stats" 
+                onClick={() => setActiveView('dashboard')}
+              />
+              <SkillButton 
+                icon={<Globe className="w-5 h-5" />} 
+                label="Culture" 
+                onClick={() => setActiveView('culture')}
+                variant="accent"
+              />
+            </div>
+
+            {/* Progress Summary */}
+            <ProgressCard progress={progress} />
+          </TabsContent>
+
+          {/* Explore Tab */}
+          <TabsContent value="explore" className="mt-4 space-y-4">
+            {/* Featured Section */}
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="bg-gradient-to-br from-secondary/20 to-primary/20 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Globe className="w-5 h-5 text-secondary" />
+                    <span className="font-heading font-bold">German Culture & Idioms</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Learn authentic expressions, proverbs, and cultural tips
+                  </p>
+                  <Button size="sm" onClick={() => setActiveView('culture')}>
+                    Explore
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* All Activities */}
+            <div>
+              <h3 className="font-heading font-semibold text-sm mb-3">All Activities</h3>
+              <div className="grid gap-2">
+                {[
+                  { icon: <Keyboard className="w-4 h-4" />, label: 'Dictation', desc: 'Listen and type', view: 'dictation' as ActiveView },
+                  { icon: <Users className="w-4 h-4" />, label: 'Conversations', desc: 'Practice dialogues', view: 'conversations' as ActiveView },
+                  { icon: <MessageCircle className="w-4 h-4" />, label: 'Phrase Review', desc: 'SRS for phrases', view: 'phraseReview' as ActiveView },
+                  { icon: <BookMarked className="w-4 h-4" />, label: 'Reading', desc: 'Comprehension exercises', view: 'reading' as ActiveView },
+                  { icon: <PenLine className="w-4 h-4" />, label: 'Writing', desc: 'Compose German texts', view: 'writing' as ActiveView },
+                ].map((item) => (
+                  <button
+                    key={item.view}
+                    onClick={() => setActiveView(item.view)}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:bg-muted transition-colors text-left"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      {item.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{item.label}</p>
+                      <p className="text-xs text-muted-foreground">{item.desc}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {/* Bottom Spacing */}
+        <div className="h-4" />
       </main>
     </div>
   );
