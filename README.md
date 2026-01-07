@@ -1,6 +1,6 @@
 Deutsch Delight 
 
-Easy and fun way to learn german and mastering skills with practice quizzes, flashcard games, sentence builder games, visualized learning on your own, it's self paced microlearning unit.
+It's an easy and fun way to learn German and master skills with practice quizzes, flashcard games, sentence builder games, and visualized learning on your own. It's a self-paced microlearning unit.
 
 ## What technologies are used for this project?
 
