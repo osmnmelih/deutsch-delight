@@ -234,7 +234,8 @@ export const HomeScreen = () => {
     quiz: <Quiz words={gameWords.length ? gameWords : unlockedWords} allWords={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={recordReview} quizType={quizType} />,
   };
 
-  if (activeView !== 'home' && activeView !== 'vocabulary' && activeView !== 'visualMatch') {
+  // Route to view components (vocabulary already handled above)
+  if (activeView !== 'home' && activeView !== 'visualMatch') {
     const component = viewComponents[activeView as keyof typeof viewComponents];
     if (component) return component;
   }
