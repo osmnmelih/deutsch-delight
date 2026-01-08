@@ -21,13 +21,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'greeting',
     questions: [
       {
-        question: 'What time of day is it?',
-        options: ['Morning', 'Afternoon', 'Evening', 'Night'],
+        question: 'Welche Tageszeit ist es?',
+        options: ['Morgen', 'Nachmittag', 'Abend', 'Nacht'],
         correctAnswer: 0
       },
       {
-        question: 'What is being asked?',
-        options: ['Your name', 'How you are', 'Where you live', 'Your age'],
+        question: 'Was wird gefragt?',
+        options: ['Ihr Name', 'Wie es Ihnen geht', 'Wo Sie wohnen', 'Ihr Alter'],
         correctAnswer: 1
       }
     ]
@@ -40,13 +40,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'greeting',
     questions: [
       {
-        question: 'What is the speaker\'s name?',
+        question: 'Wie heißt die Sprecherin?',
         options: ['Anna', 'Maria', 'Lisa', 'Sarah'],
         correctAnswer: 1
       },
       {
-        question: 'Where is the speaker from?',
-        options: ['Austria', 'Switzerland', 'Germany', 'France'],
+        question: 'Woher kommt die Sprecherin?',
+        options: ['Österreich', 'Schweiz', 'Deutschland', 'Frankreich'],
         correctAnswer: 2
       }
     ]
@@ -59,8 +59,8 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'greeting',
     questions: [
       {
-        question: 'What greeting is used?',
-        options: ['Good morning', 'Good afternoon', 'Good evening', 'Good night'],
+        question: 'Welche Begrüßung wird verwendet?',
+        options: ['Guten Morgen', 'Guten Tag', 'Guten Abend', 'Gute Nacht'],
         correctAnswer: 2
       }
     ]
@@ -75,13 +75,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'shopping',
     questions: [
       {
-        question: 'What item is being asked about?',
-        options: ['A pen', 'A book', 'A bag', 'A shirt'],
+        question: 'Nach welchem Artikel wird gefragt?',
+        options: ['Ein Stift', 'Ein Buch', 'Eine Tasche', 'Ein Hemd'],
         correctAnswer: 1
       },
       {
-        question: 'How much does it cost?',
-        options: ['5 euros', '10 euros', '15 euros', '20 euros'],
+        question: 'Wie viel kostet es?',
+        options: ['5 Euro', '10 Euro', '15 Euro', '20 Euro'],
         correctAnswer: 1
       }
     ]
@@ -94,13 +94,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'shopping',
     questions: [
       {
-        question: 'How many apples does the speaker want?',
-        options: ['One', 'Two', 'Three', 'Four'],
+        question: 'Wie viele Äpfel möchte der Sprecher?',
+        options: ['Einen', 'Zwei', 'Drei', 'Vier'],
         correctAnswer: 1
       },
       {
-        question: 'What fruits are mentioned?',
-        options: ['Oranges and apples', 'Apples and bananas', 'Bananas and oranges', 'Grapes and apples'],
+        question: 'Welche Früchte werden genannt?',
+        options: ['Orangen und Äpfel', 'Äpfel und Bananen', 'Bananen und Orangen', 'Trauben und Äpfel'],
         correctAnswer: 1
       }
     ]
@@ -115,13 +115,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'directions',
     questions: [
       {
-        question: 'What place is being asked about?',
-        options: ['Airport', 'Train station', 'Bus stop', 'Hotel'],
+        question: 'Nach welchem Ort wird gefragt?',
+        options: ['Flughafen', 'Bahnhof', 'Bushaltestelle', 'Hotel'],
         correctAnswer: 1
       },
       {
-        question: 'What direction should you turn?',
-        options: ['Right', 'Left', 'Back', 'Straight only'],
+        question: 'In welche Richtung soll man abbiegen?',
+        options: ['Rechts', 'Links', 'Zurück', 'Nur geradeaus'],
         correctAnswer: 1
       }
     ]
@@ -134,13 +134,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'directions',
     questions: [
       {
-        question: 'What is next to the library?',
-        options: ['The park', 'The museum', 'The school', 'The station'],
+        question: 'Was ist neben der Bibliothek?',
+        options: ['Der Park', 'Das Museum', 'Die Schule', 'Der Bahnhof'],
         correctAnswer: 1
       },
       {
-        question: 'What is opposite the park?',
-        options: ['The library', 'The school', 'The museum', 'The hotel'],
+        question: 'Was liegt gegenüber dem Park?',
+        options: ['Die Bibliothek', 'Die Schule', 'Das Museum', 'Das Hotel'],
         correctAnswer: 2
       }
     ]
@@ -155,13 +155,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'restaurant',
     questions: [
       {
-        question: 'What drink is ordered?',
-        options: ['Tea', 'Coffee', 'Juice', 'Water'],
+        question: 'Welches Getränk wird bestellt?',
+        options: ['Tee', 'Kaffee', 'Saft', 'Wasser'],
         correctAnswer: 1
       },
       {
-        question: 'What food is ordered?',
-        options: ['Bread', 'Cookie', 'Cake', 'Ice cream'],
+        question: 'Welches Essen wird bestellt?',
+        options: ['Brot', 'Kekse', 'Kuchen', 'Eis'],
         correctAnswer: 2
       }
     ]
@@ -174,13 +174,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'restaurant',
     questions: [
       {
-        question: 'What is being requested?',
-        options: ['The menu', 'The bill', 'More food', 'A table'],
+        question: 'Was wird verlangt?',
+        options: ['Die Speisekarte', 'Die Rechnung', 'Mehr Essen', 'Einen Tisch'],
         correctAnswer: 1
       },
       {
-        question: 'What is the total amount?',
-        options: ['€15.00', '€15.50', '€50.15', '€5.50'],
+        question: 'Wie viel beträgt der Gesamtpreis?',
+        options: ['15,00 €', '15,50 €', '50,15 €', '5,50 €'],
         correctAnswer: 1
       }
     ]
@@ -195,13 +195,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'daily',
     questions: [
       {
-        question: 'What time does the speaker wake up?',
-        options: ['6:00', '7:00', '7:30', '8:00'],
+        question: 'Um wie viel Uhr steht der Sprecher auf?',
+        options: ['6:00 Uhr', '7:00 Uhr', '7:30 Uhr', '8:00 Uhr'],
         correctAnswer: 1
       },
       {
-        question: 'What time is breakfast?',
-        options: ['7:00', '7:30', '8:00', '8:30'],
+        question: 'Wann ist das Frühstück?',
+        options: ['7:00 Uhr', '7:30 Uhr', '8:00 Uhr', '8:30 Uhr'],
         correctAnswer: 1
       }
     ]
@@ -214,13 +214,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'daily',
     questions: [
       {
-        question: 'When does this activity happen?',
-        options: ['Weekdays', 'Monday', 'Weekend', 'Every day'],
+        question: 'Wann findet diese Aktivität statt?',
+        options: ['Wochentage', 'Montag', 'Wochenende', 'Jeden Tag'],
         correctAnswer: 2
       },
       {
-        question: 'What activities are mentioned?',
-        options: ['Swimming and reading', 'Cinema and reading', 'Cinema and cooking', 'Sports and cinema'],
+        question: 'Welche Aktivitäten werden genannt?',
+        options: ['Schwimmen und Lesen', 'Kino und Lesen', 'Kino und Kochen', 'Sport und Kino'],
         correctAnswer: 1
       }
     ]
@@ -235,13 +235,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'conversation',
     questions: [
       {
-        question: 'What is the first speaker asking for?',
-        options: ['Time', 'Help', 'Directions', 'Money'],
+        question: 'Was fragt der erste Sprecher?',
+        options: ['Die Zeit', 'Um Hilfe', 'Nach dem Weg', 'Um Geld'],
         correctAnswer: 1
       },
       {
-        question: 'What is the response?',
-        options: ['No', 'Maybe later', 'Yes, what do you need?', 'I don\'t know'],
+        question: 'Was ist die Antwort?',
+        options: ['Nein', 'Vielleicht später', 'Ja, was brauchst du?', 'Ich weiß nicht'],
         correctAnswer: 2
       }
     ]
@@ -254,13 +254,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'conversation',
     questions: [
       {
-        question: 'What is the weather like?',
-        options: ['Rainy', 'Cold', 'Nice and sunny', 'Cloudy'],
+        question: 'Wie ist das Wetter?',
+        options: ['Regnerisch', 'Kalt', 'Schön und sonnig', 'Bewölkt'],
         correctAnswer: 2
       },
       {
-        question: 'What is mentioned about the temperature?',
-        options: ['It\'s cold', 'It\'s warm', 'It\'s freezing', 'It\'s cool'],
+        question: 'Was wird über die Temperatur gesagt?',
+        options: ['Es ist kalt', 'Es ist warm', 'Es friert', 'Es ist kühl'],
         correctAnswer: 1
       }
     ]
@@ -273,13 +273,13 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'conversation',
     questions: [
       {
-        question: 'What is being asked?',
-        options: ['The date', 'The time', 'The weather', 'The price'],
+        question: 'Was wird gefragt?',
+        options: ['Das Datum', 'Die Uhrzeit', 'Das Wetter', 'Der Preis'],
         correctAnswer: 1
       },
       {
-        question: 'What time is it?',
-        options: ['3:00', '3:15', '3:30', '3:45'],
+        question: 'Wie spät ist es?',
+        options: ['3:00 Uhr', '3:15 Uhr', '3:30 Uhr', '3:45 Uhr'],
         correctAnswer: 1
       }
     ]
@@ -292,18 +292,18 @@ export const listeningExercises: ListeningExercise[] = [
     category: 'daily',
     questions: [
       {
-        question: 'When is the appointment?',
-        options: ['Today', 'Tomorrow', 'Next week', 'Yesterday'],
+        question: 'Wann ist der Termin?',
+        options: ['Heute', 'Morgen', 'Nächste Woche', 'Gestern'],
         correctAnswer: 1
       },
       {
-        question: 'Where is the appointment?',
-        options: ['At the dentist', 'At the doctor', 'At the bank', 'At the office'],
+        question: 'Wo ist der Termin?',
+        options: ['Beim Zahnarzt', 'Beim Arzt', 'Bei der Bank', 'Im Büro'],
         correctAnswer: 1
       },
       {
-        question: 'What time is the appointment?',
-        options: ['8:00', '9:00', '10:00', '11:00'],
+        question: 'Um wie viel Uhr ist der Termin?',
+        options: ['8:00 Uhr', '9:00 Uhr', '10:00 Uhr', '11:00 Uhr'],
         correctAnswer: 1
       }
     ]
@@ -331,32 +331,32 @@ export interface ListeningDictation {
 
 export const listeningDictations: ListeningDictation[] = [
   // A1 Level
-  { id: 'a1-1', level: 'A1', german: 'Ich heiße Maria.', english: 'My name is Maria.', audioSpeed: 'slow', hints: ['Start with "Ich"', 'Common greeting phrase'], keyWords: ['heiße'] },
-  { id: 'a1-2', level: 'A1', german: 'Das Wetter ist schön.', english: 'The weather is nice.', audioSpeed: 'slow', hints: ['Neutral article "Das"', 'Weather vocabulary'], keyWords: ['Wetter', 'schön'] },
-  { id: 'a1-3', level: 'A1', german: 'Ich trinke gern Kaffee.', english: 'I like to drink coffee.', audioSpeed: 'slow', hints: ['"gern" expresses preference', 'Common verb "trinken"'], keyWords: ['trinke', 'gern', 'Kaffee'] },
-  { id: 'a1-4', level: 'A1', german: 'Wo ist die Toilette?', english: 'Where is the toilet?', audioSpeed: 'slow', hints: ['Question word "Wo"', 'Feminine article "die"'], keyWords: ['Wo', 'Toilette'] },
-  { id: 'a1-5', level: 'A1', german: 'Ich komme aus Deutschland.', english: 'I come from Germany.', audioSpeed: 'slow', hints: ['Origin phrase with "aus"'], keyWords: ['komme', 'aus', 'Deutschland'] },
-  { id: 'a1-6', level: 'A1', german: 'Heute ist Montag.', english: 'Today is Monday.', audioSpeed: 'slow', hints: ['Time expression "Heute"'], keyWords: ['Heute', 'Montag'] },
-  { id: 'a1-7', level: 'A1', german: 'Ich habe einen Hund.', english: 'I have a dog.', audioSpeed: 'slow', hints: ['Accusative article "einen"'], keyWords: ['habe', 'einen', 'Hund'] },
-  { id: 'a1-8', level: 'A1', german: 'Das Buch ist interessant.', english: 'The book is interesting.', audioSpeed: 'slow', hints: ['Neutral article "Das"'], keyWords: ['Buch', 'interessant'] },
+  { id: 'a1-1', level: 'A1', german: 'Ich heiße Maria.', english: 'My name is Maria.', audioSpeed: 'slow', hints: ['Beginnt mit "Ich"', 'Häufige Begrüßungsphrase'], keyWords: ['heiße'] },
+  { id: 'a1-2', level: 'A1', german: 'Das Wetter ist schön.', english: 'The weather is nice.', audioSpeed: 'slow', hints: ['Neutraler Artikel "Das"', 'Wetter-Vokabular'], keyWords: ['Wetter', 'schön'] },
+  { id: 'a1-3', level: 'A1', german: 'Ich trinke gern Kaffee.', english: 'I like to drink coffee.', audioSpeed: 'slow', hints: ['"gern" drückt Vorliebe aus', 'Häufiges Verb "trinken"'], keyWords: ['trinke', 'gern', 'Kaffee'] },
+  { id: 'a1-4', level: 'A1', german: 'Wo ist die Toilette?', english: 'Where is the toilet?', audioSpeed: 'slow', hints: ['Fragewort "Wo"', 'Femininer Artikel "die"'], keyWords: ['Wo', 'Toilette'] },
+  { id: 'a1-5', level: 'A1', german: 'Ich komme aus Deutschland.', english: 'I come from Germany.', audioSpeed: 'slow', hints: ['Herkunftsphrase mit "aus"'], keyWords: ['komme', 'aus', 'Deutschland'] },
+  { id: 'a1-6', level: 'A1', german: 'Heute ist Montag.', english: 'Today is Monday.', audioSpeed: 'slow', hints: ['Zeitausdruck "Heute"'], keyWords: ['Heute', 'Montag'] },
+  { id: 'a1-7', level: 'A1', german: 'Ich habe einen Hund.', english: 'I have a dog.', audioSpeed: 'slow', hints: ['Akkusativ-Artikel "einen"'], keyWords: ['habe', 'einen', 'Hund'] },
+  { id: 'a1-8', level: 'A1', german: 'Das Buch ist interessant.', english: 'The book is interesting.', audioSpeed: 'slow', hints: ['Neutraler Artikel "Das"'], keyWords: ['Buch', 'interessant'] },
   // A2 Level
-  { id: 'a2-1', level: 'A2', german: 'Ich gehe morgen ins Kino.', english: 'I am going to the cinema tomorrow.', audioSpeed: 'normal', hints: ['Time word "morgen" before place', '"ins" = in das'], keyWords: ['morgen', 'ins', 'Kino'] },
-  { id: 'a2-2', level: 'A2', german: 'Sie hat gestern einen Brief geschrieben.', english: 'She wrote a letter yesterday.', audioSpeed: 'normal', hints: ['Perfect tense with "haben"', 'Participle at the end'], keyWords: ['gestern', 'Brief', 'geschrieben'] },
-  { id: 'a2-3', level: 'A2', german: 'Wir müssen früh aufstehen.', english: 'We have to get up early.', audioSpeed: 'normal', hints: ['Modal verb "müssen"', 'Separable verb "aufstehen"'], keyWords: ['müssen', 'früh', 'aufstehen'] },
-  { id: 'a2-4', level: 'A2', german: 'Der Zug fährt um acht Uhr ab.', english: 'The train departs at eight o\'clock.', audioSpeed: 'normal', hints: ['Separable verb "abfahren"', 'Time expression with "um"'], keyWords: ['Zug', 'fährt', 'acht', 'ab'] },
-  { id: 'a2-5', level: 'A2', german: 'Kannst du mir bitte helfen?', english: 'Can you please help me?', audioSpeed: 'normal', hints: ['Modal verb "können"', 'Dative pronoun "mir"'], keyWords: ['Kannst', 'mir', 'helfen'] },
-  { id: 'a2-6', level: 'A2', german: 'Ich habe Hunger und Durst.', english: 'I am hungry and thirsty.', audioSpeed: 'normal', hints: ['Compound sentence with "und"'], keyWords: ['Hunger', 'und', 'Durst'] },
+  { id: 'a2-1', level: 'A2', german: 'Ich gehe morgen ins Kino.', english: 'I am going to the cinema tomorrow.', audioSpeed: 'normal', hints: ['Zeitwort "morgen" vor Ort', '"ins" = in das'], keyWords: ['morgen', 'ins', 'Kino'] },
+  { id: 'a2-2', level: 'A2', german: 'Sie hat gestern einen Brief geschrieben.', english: 'She wrote a letter yesterday.', audioSpeed: 'normal', hints: ['Perfekt mit "haben"', 'Partizip am Ende'], keyWords: ['gestern', 'Brief', 'geschrieben'] },
+  { id: 'a2-3', level: 'A2', german: 'Wir müssen früh aufstehen.', english: 'We have to get up early.', audioSpeed: 'normal', hints: ['Modalverb "müssen"', 'Trennbares Verb "aufstehen"'], keyWords: ['müssen', 'früh', 'aufstehen'] },
+  { id: 'a2-4', level: 'A2', german: 'Der Zug fährt um acht Uhr ab.', english: 'The train departs at eight o\'clock.', audioSpeed: 'normal', hints: ['Trennbares Verb "abfahren"', 'Zeitausdruck mit "um"'], keyWords: ['Zug', 'fährt', 'acht', 'ab'] },
+  { id: 'a2-5', level: 'A2', german: 'Kannst du mir bitte helfen?', english: 'Can you please help me?', audioSpeed: 'normal', hints: ['Modalverb "können"', 'Dativ-Pronomen "mir"'], keyWords: ['Kannst', 'mir', 'helfen'] },
+  { id: 'a2-6', level: 'A2', german: 'Ich habe Hunger und Durst.', english: 'I am hungry and thirsty.', audioSpeed: 'normal', hints: ['Zusammengesetzter Satz mit "und"'], keyWords: ['Hunger', 'und', 'Durst'] },
   // B1 Level
-  { id: 'b1-1', level: 'B1', german: 'Obwohl es regnet, gehen wir spazieren.', english: 'Although it is raining, we are going for a walk.', audioSpeed: 'normal', hints: ['Subordinate clause with "obwohl"', 'Verb at end of first clause'], keyWords: ['Obwohl', 'regnet', 'spazieren'] },
-  { id: 'b1-2', level: 'B1', german: 'Ich würde gern nach Berlin fahren.', english: 'I would like to go to Berlin.', audioSpeed: 'normal', hints: ['Subjunctive "würde"', 'Destination with "nach"'], keyWords: ['würde', 'gern', 'Berlin', 'fahren'] },
-  { id: 'b1-3', level: 'B1', german: 'Als ich jung war, spielte ich Fußball.', english: 'When I was young, I played soccer.', audioSpeed: 'normal', hints: ['Temporal clause with "als"', 'Simple past "spielte"'], keyWords: ['Als', 'jung', 'spielte', 'Fußball'] },
-  { id: 'b1-4', level: 'B1', german: 'Er hat mich gefragt, ob ich morgen Zeit habe.', english: 'He asked me if I have time tomorrow.', audioSpeed: 'normal', hints: ['Indirect question with "ob"'], keyWords: ['gefragt', 'ob', 'morgen', 'Zeit'] },
-  { id: 'b1-5', level: 'B1', german: 'Nachdem ich gegessen hatte, bin ich spazieren gegangen.', english: 'After I had eaten, I went for a walk.', audioSpeed: 'normal', hints: ['Past perfect in first clause', 'Perfect tense in main clause'], keyWords: ['Nachdem', 'gegessen', 'spazieren', 'gegangen'] },
+  { id: 'b1-1', level: 'B1', german: 'Obwohl es regnet, gehen wir spazieren.', english: 'Although it is raining, we are going for a walk.', audioSpeed: 'normal', hints: ['Nebensatz mit "obwohl"', 'Verb am Ende des ersten Satzes'], keyWords: ['Obwohl', 'regnet', 'spazieren'] },
+  { id: 'b1-2', level: 'B1', german: 'Ich würde gern nach Berlin fahren.', english: 'I would like to go to Berlin.', audioSpeed: 'normal', hints: ['Konjunktiv "würde"', 'Ziel mit "nach"'], keyWords: ['würde', 'gern', 'Berlin', 'fahren'] },
+  { id: 'b1-3', level: 'B1', german: 'Als ich jung war, spielte ich Fußball.', english: 'When I was young, I played soccer.', audioSpeed: 'normal', hints: ['Temporalsatz mit "als"', 'Präteritum "spielte"'], keyWords: ['Als', 'jung', 'spielte', 'Fußball'] },
+  { id: 'b1-4', level: 'B1', german: 'Er hat mich gefragt, ob ich morgen Zeit habe.', english: 'He asked me if I have time tomorrow.', audioSpeed: 'normal', hints: ['Indirekte Frage mit "ob"'], keyWords: ['gefragt', 'ob', 'morgen', 'Zeit'] },
+  { id: 'b1-5', level: 'B1', german: 'Nachdem ich gegessen hatte, bin ich spazieren gegangen.', english: 'After I had eaten, I went for a walk.', audioSpeed: 'normal', hints: ['Plusquamperfekt im ersten Satz', 'Perfekt im Hauptsatz'], keyWords: ['Nachdem', 'gegessen', 'spazieren', 'gegangen'] },
   // B2 Level
-  { id: 'b2-1', level: 'B2', german: 'Hätte ich das gewusst, wäre ich früher gekommen.', english: 'Had I known that, I would have come earlier.', audioSpeed: 'fast', hints: ['Subjunctive II conditional', 'Past conditional structure'], keyWords: ['Hätte', 'gewusst', 'wäre', 'gekommen'] },
-  { id: 'b2-2', level: 'B2', german: 'Je mehr ich lerne, desto besser verstehe ich die Grammatik.', english: 'The more I learn, the better I understand the grammar.', audioSpeed: 'fast', hints: ['Comparative construction "je...desto"'], keyWords: ['Je', 'desto', 'besser', 'Grammatik'] },
-  { id: 'b2-3', level: 'B2', german: 'Die Firma, bei der ich arbeite, expandiert nach Asien.', english: 'The company where I work is expanding to Asia.', audioSpeed: 'fast', hints: ['Relative clause with preposition'], keyWords: ['Firma', 'bei der', 'expandiert', 'Asien'] },
-  { id: 'b2-4', level: 'B2', german: 'Anstatt zu Hause zu bleiben, sind wir ins Museum gegangen.', english: 'Instead of staying at home, we went to the museum.', audioSpeed: 'fast', hints: ['Infinitive clause with "anstatt...zu"'], keyWords: ['Anstatt', 'bleiben', 'Museum', 'gegangen'] },
+  { id: 'b2-1', level: 'B2', german: 'Hätte ich das gewusst, wäre ich früher gekommen.', english: 'Had I known that, I would have come earlier.', audioSpeed: 'fast', hints: ['Konjunktiv II Konditionalsatz', 'Vergangene Konditionalstruktur'], keyWords: ['Hätte', 'gewusst', 'wäre', 'gekommen'] },
+  { id: 'b2-2', level: 'B2', german: 'Je mehr ich lerne, desto besser verstehe ich die Grammatik.', english: 'The more I learn, the better I understand the grammar.', audioSpeed: 'fast', hints: ['Vergleichskonstruktion "je...desto"'], keyWords: ['Je', 'desto', 'besser', 'Grammatik'] },
+  { id: 'b2-3', level: 'B2', german: 'Die Firma, bei der ich arbeite, expandiert nach Asien.', english: 'The company where I work is expanding to Asia.', audioSpeed: 'fast', hints: ['Relativsatz mit Präposition'], keyWords: ['Firma', 'bei der', 'expandiert', 'Asien'] },
+  { id: 'b2-4', level: 'B2', german: 'Anstatt zu Hause zu bleiben, sind wir ins Museum gegangen.', english: 'Instead of staying at home, we went to the museum.', audioSpeed: 'fast', hints: ['Infinitivsatz mit "anstatt...zu"'], keyWords: ['Anstatt', 'bleiben', 'Museum', 'gegangen'] },
 ];
 
 export const getLevelDictations = (level: 'A1' | 'A2' | 'B1' | 'B2'): ListeningDictation[] => {
