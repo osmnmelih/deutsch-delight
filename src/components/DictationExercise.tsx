@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Volume2, Eye, EyeOff, RotateCcw, Check, X, Lightbulb, ChevronRight } from 'lucide-react';
 import { listeningDictations, ListeningDictation } from '@/data/listeningExercises';
+import { useAudioPronunciation } from '@/hooks/useAudioPronunciation';
 
 interface DictationExerciseProps {
   onBack: () => void;
@@ -22,6 +23,9 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [exercises, setExercises] = useState<ListeningDictation[]>([]);
 
+  // Use the audio pronunciation hook for proper German speech
+  const { speak, isSpeaking, isSupported } = useAudioPronunciation();
+
   useEffect(() => {
     if (selectedLevel) {
       const levelExercises = listeningDictations.filter(d => d.level === selectedLevel);
@@ -33,15 +37,13 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
 
   const currentExercise = exercises[currentIndex];
 
-  const speakText = useCallback((text: string, speed: 'slow' | 'normal' | 'fast' = 'normal') => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'de-DE';
-      utterance.rate = speed === 'slow' ? 0.6 : speed === 'fast' ? 1.2 : 0.85;
-      window.speechSynthesis.speak(utterance);
-    }
-  }, []);
+  // Use the audio hook for proper German pronunciation
+  const speakText = (text: string, speed: 'slow' | 'normal' | 'fast' = 'normal') => {
+    if (!isSupported) return;
+    
+    const rate = speed === 'slow' ? 0.6 : speed === 'fast' ? 1.1 : 0.85;
+    speak(text, rate);
+  };
 
   const normalizeText = (text: string): string => {
     return text
@@ -62,6 +64,11 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
       correct: prev.correct + (correct ? 1 : 0),
       total: prev.total + 1,
     }));
+
+    // Speak the correct answer
+    if (correct) {
+      speakText(currentExercise.german, 'normal');
+    }
   };
 
   const handleNext = () => {
@@ -109,7 +116,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
               </Button>
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🎧</span>
-                <h1 className="font-heading font-bold text-lg">Dictation Exercise</h1>
+                <h1 className="font-heading font-bold text-lg">Diktatübung</h1>
               </div>
             </div>
           </div>
@@ -117,9 +124,9 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
 
         <main className="container px-4 py-6 space-y-6">
           <div className="text-center space-y-2">
-            <h2 className="font-heading text-xl font-bold">Select Your Level</h2>
+            <h2 className="font-heading text-xl font-bold">Wähle dein Niveau</h2>
             <p className="text-muted-foreground text-sm">
-              Listen to German sentences and type what you hear
+              Höre deutsche Sätze und schreibe, was du hörst
             </p>
           </div>
 
@@ -136,7 +143,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                     <Badge className={`${levelColors[level]} mb-3 text-lg px-4 py-1`}>
                       {level}
                     </Badge>
-                    <p className="text-sm text-muted-foreground">{count} exercises</p>
+                    <p className="text-sm text-muted-foreground">{count} Übungen</p>
                   </CardContent>
                 </Card>
               );
@@ -147,16 +154,26 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
             <CardContent className="p-4">
               <h3 className="font-semibold mb-2 flex items-center gap-2">
                 <Lightbulb className="w-4 h-4 text-primary" />
-                How it works
+                So funktioniert es
               </h3>
               <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Click the speaker icon to hear the sentence</li>
-                <li>• Type exactly what you hear in German</li>
-                <li>• Use hints if you get stuck</li>
-                <li>• Check your answer and learn from mistakes</li>
+                <li>• Klicke auf das Lautsprecher-Symbol, um den Satz zu hören</li>
+                <li>• Schreibe genau das, was du auf Deutsch hörst</li>
+                <li>• Benutze die Hinweise, wenn du nicht weiterkommst</li>
+                <li>• Überprüfe deine Antwort und lerne aus Fehlern</li>
               </ul>
             </CardContent>
           </Card>
+
+          {!isSupported && (
+            <Card className="bg-destructive/10 border-destructive/30">
+              <CardContent className="p-4">
+                <p className="text-sm text-destructive">
+                  ⚠️ Audio wird in deinem Browser nicht unterstützt. Bitte verwende einen modernen Browser.
+                </p>
+              </CardContent>
+            </Card>
+          )}
         </main>
       </div>
     );
@@ -173,7 +190,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
               <Button variant="ghost" size="icon" onClick={() => setSelectedLevel(null)} className="shrink-0">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-              <h1 className="font-heading font-bold text-lg">Results</h1>
+              <h1 className="font-heading font-bold text-lg">Ergebnisse</h1>
             </div>
           </div>
         </header>
@@ -183,20 +200,20 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
             {percentage >= 80 ? '🎉' : percentage >= 50 ? '👍' : '💪'}
           </div>
           <h2 className="font-heading text-2xl font-bold">
-            {percentage >= 80 ? 'Excellent!' : percentage >= 50 ? 'Good job!' : 'Keep practicing!'}
+            {percentage >= 80 ? 'Ausgezeichnet!' : percentage >= 50 ? 'Gut gemacht!' : 'Weiter üben!'}
           </h2>
           <p className="text-3xl font-bold text-primary">
             {score.correct} / {score.total}
           </p>
-          <p className="text-muted-foreground">{percentage}% correct</p>
+          <p className="text-muted-foreground">{percentage}% richtig</p>
           
           <div className="flex flex-col gap-3 max-w-xs mx-auto">
             <Button onClick={handleRestart} className="gap-2">
               <RotateCcw className="w-4 h-4" />
-              Try Again
+              Nochmal versuchen
             </Button>
             <Button variant="outline" onClick={() => setSelectedLevel(null)}>
-              Choose Another Level
+              Anderes Niveau wählen
             </Button>
           </div>
         </main>
@@ -227,7 +244,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
       <main className="container px-4 py-6 space-y-6">
         <Card className="card-elevated">
           <CardHeader className="text-center pb-2">
-            <CardTitle className="text-lg">Listen and Type</CardTitle>
+            <CardTitle className="text-lg">Höre und schreibe</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Audio buttons */}
@@ -236,18 +253,20 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                 size="lg"
                 variant="outline"
                 onClick={() => speakText(currentExercise.german, 'slow')}
+                disabled={isSpeaking || !isSupported}
                 className="gap-2"
               >
-                <Volume2 className="w-5 h-5" />
-                Slow
+                <Volume2 className={`w-5 h-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
+                Langsam
               </Button>
               <Button
                 size="lg"
                 onClick={() => speakText(currentExercise.german, currentExercise.audioSpeed)}
+                disabled={isSpeaking || !isSupported}
                 className="gap-2"
               >
-                <Volume2 className="w-5 h-5" />
-                Play
+                <Volume2 className={`w-5 h-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
+                Abspielen
               </Button>
             </div>
 
@@ -257,7 +276,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type what you hear..."
+                placeholder="Schreibe, was du hörst..."
                 className="text-lg text-center h-14"
                 disabled={isChecked}
                 autoComplete="off"
@@ -276,7 +295,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                   className="gap-2"
                 >
                   <Lightbulb className="w-4 h-4" />
-                  {showHints ? 'Hide Hints' : 'Show Hints'}
+                  {showHints ? 'Hinweise verstecken' : 'Hinweise zeigen'}
                 </Button>
                 <Button
                   variant="ghost"
@@ -285,14 +304,14 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                   className="gap-2"
                 >
                   {showAnswer ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  {showAnswer ? 'Hide Answer' : 'Reveal'}
+                  {showAnswer ? 'Verstecken' : 'Antwort zeigen'}
                 </Button>
               </div>
             )}
 
             {showHints && !isChecked && (
               <div className="bg-muted/50 p-4 rounded-xl space-y-2">
-                <p className="text-sm font-medium">Hints:</p>
+                <p className="text-sm font-medium">Hinweise:</p>
                 <ul className="text-sm text-muted-foreground space-y-1">
                   {currentExercise.hints.map((hint, idx) => (
                     <li key={idx}>• {hint}</li>
@@ -325,7 +344,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                     <X className="w-6 h-6 text-incorrect" />
                   )}
                   <span className={`font-bold ${isCorrect ? 'text-correct' : 'text-incorrect'}`}>
-                    {isCorrect ? 'Correct!' : 'Not quite'}
+                    {isCorrect ? 'Richtig!' : 'Nicht ganz'}
                   </span>
                 </div>
                 <div className="text-center space-y-2">
@@ -333,9 +352,19 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
                   <p className="text-sm text-muted-foreground">{currentExercise.english}</p>
                   {!isCorrect && (
                     <p className="text-sm text-muted-foreground mt-2">
-                      Your answer: <span className="italic">{userInput}</span>
+                      Deine Antwort: <span className="italic">{userInput}</span>
                     </p>
                   )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => speakText(currentExercise.german, 'normal')}
+                    disabled={isSpeaking}
+                    className="gap-2 mt-2"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    Nochmal anhören
+                  </Button>
                 </div>
               </div>
             )}
@@ -345,16 +374,16 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
               {!isChecked ? (
                 <Button onClick={checkAnswer} disabled={!userInput.trim()} className="gap-2 px-8">
                   <Check className="w-4 h-4" />
-                  Check Answer
+                  Überprüfen
                 </Button>
               ) : (
                 <Button onClick={handleNext} className="gap-2 px-8">
                   {currentIndex < exercises.length - 1 ? (
                     <>
-                      Next <ChevronRight className="w-4 h-4" />
+                      Weiter <ChevronRight className="w-4 h-4" />
                     </>
                   ) : (
-                    'See Results'
+                    'Ergebnisse anzeigen'
                   )}
                 </Button>
               )}
@@ -364,7 +393,7 @@ const DictationExercise = ({ onBack }: DictationExerciseProps) => {
 
         {/* Score */}
         <div className="text-center text-sm text-muted-foreground">
-          Score: {score.correct} / {score.total}
+          Punktzahl: {score.correct} / {score.total}
         </div>
       </main>
     </div>

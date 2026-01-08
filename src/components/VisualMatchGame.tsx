@@ -1,10 +1,10 @@
-import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
-import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw, Sparkles, Star } from 'lucide-react';
+import { useState, useCallback, useRef, useMemo } from 'react';
+import { ArrowLeft, Volume2, CheckCircle, XCircle, RotateCcw, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { VocabularyWord, Article } from '@/types/vocabulary';
+import { VocabularyWord } from '@/types/vocabulary';
 import { useAudioPronunciation } from '@/hooks/useAudioPronunciation';
 import { toast } from 'sonner';
 import { SRSData } from '@/types/srs';
@@ -17,28 +17,139 @@ interface VisualMatchGameProps {
   onXPGain?: (amount: number) => void;
 }
 
-// Comprehensive emoji mapping
+// Comprehensive emoji mapping - each German word maps to ONE specific emoji
 const wordEmojis: Record<string, string> = {
-  Hund: '🐕', Katze: '🐱', Pferd: '🐴', Vogel: '🐦', Maus: '🐭', Schwein: '🐷',
-  Kuh: '🐄', Schaf: '🐑', Fisch: '🐟', Bär: '🐻', Apfel: '🍎', Banane: '🍌',
-  Brot: '🍞', Käse: '🧀', Milch: '🥛', Ei: '🥚', Wurst: '🌭', Fleisch: '🥩',
-  Reis: '🍚', Kartoffel: '🥔', Tisch: '🪑', Lampe: '💡', Fenster: '🪟', Stuhl: '🪑',
-  Tür: '🚪', Bett: '🛏️', Schrank: '🗄️', Küche: '🍳', Sofa: '🛋️', Spiegel: '🪞',
-  Baum: '🌳', Blume: '🌸', Wasser: '💧', Berg: '⛰️', Sonne: '☀️', Meer: '🌊',
-  Wald: '🌲', Wolke: '☁️', Gras: '🌿', Fluss: '🏞️', Kopf: '👤', Hand: '✋',
-  Auge: '👁️', Fuß: '🦶', Nase: '👃', Ohr: '👂', Arm: '💪', Bein: '🦵',
-  Schuh: '👟', Hose: '👖', Hemd: '👔', Mantel: '🧥', Jacke: '🧥', Kleid: '👗',
-  Hut: '🎩', Socke: '🧦', Auto: '🚗', Zug: '🚂', Bus: '🚌', Fahrrad: '🚲',
-  Flugzeug: '✈️', Schiff: '🚢', Vater: '👨', Mutter: '👩', Baby: '👶',
-  Bruder: '👦', Schwester: '👧', Großvater: '👴', Großmutter: '👵',
-  Regen: '🌧️', Schnee: '❄️', Wind: '💨', Gewitter: '⛈️', Nebel: '🌫️',
-  Stift: '✏️', Buch: '📖', Computer: '💻', Uhr: '⏰', Tasche: '👜',
-  Himmel: '🌤️', Nacht: '🌙', Gold: '🥇', Rose: '🌹', Mond: '🌕',
-  Glück: '🍀', Liebe: '❤️', Fußball: '⚽', Musik: '🎵', Tanz: '💃',
-  Markt: '🏪', Park: '🌳', Kirche: '⛪', Museum: '🏛️', Kaffee: '☕',
-  Wein: '🍷', Bier: '🍺', Pizza: '🍕', Suppe: '🍲', Salat: '🥗',
-  Haus: '🏠', Straße: '🛣️', Stadt: '🏙️', Garten: '🌻', Kühlschrank: '🧊',
-  Telefon: '📱', Fernseher: '📺', Radio: '📻', Kamera: '📷', Schlüssel: '🔑',
+  // Animals (Tiere)
+  Hund: '🐕',
+  Katze: '🐱',
+  Pferd: '🐴',
+  Vogel: '🐦',
+  Maus: '🐭',
+  Schwein: '🐷',
+  Kuh: '🐄',
+  Schaf: '🐑',
+  Fisch: '🐟',
+  Bär: '🐻',
+  
+  // Food (Essen)
+  Apfel: '🍎',
+  Banane: '🍌',
+  Brot: '🍞',
+  Käse: '🧀',
+  Milch: '🥛',
+  Ei: '🥚',
+  Wurst: '🌭',
+  Fleisch: '🥩',
+  Reis: '🍚',
+  Kartoffel: '🥔',
+  Kaffee: '☕',
+  Wein: '🍷',
+  Bier: '🍺',
+  Pizza: '🍕',
+  Suppe: '🍲',
+  Salat: '🥗',
+  
+  // House (Zuhause)
+  Tisch: '🪑',
+  Lampe: '💡',
+  Fenster: '🪟',
+  Stuhl: '💺',
+  Tür: '🚪',
+  Bett: '🛏️',
+  Schrank: '🗄️',
+  Küche: '🍳',
+  Sofa: '🛋️',
+  Spiegel: '🪞',
+  Haus: '🏠',
+  Kühlschrank: '🧊',
+  
+  // Nature (Natur)
+  Baum: '🌳',
+  Blume: '🌸',
+  Wasser: '💧',
+  Berg: '⛰️',
+  Sonne: '☀️',
+  Meer: '🌊',
+  Wald: '🌲',
+  Wolke: '☁️',
+  Gras: '🌿',
+  Fluss: '🏞️',
+  Garten: '🌻',
+  
+  // Body (Körper)
+  Kopf: '👤',
+  Hand: '✋',
+  Auge: '👁️',
+  Fuß: '🦶',
+  Nase: '👃',
+  Ohr: '👂',
+  Arm: '💪',
+  Bein: '🦵',
+  
+  // Clothing (Kleidung)
+  Schuh: '👟',
+  Hose: '👖',
+  Hemd: '👔',
+  Mantel: '🧥',
+  Jacke: '🧥',
+  Kleid: '👗',
+  Hut: '🎩',
+  Socke: '🧦',
+  
+  // Transportation (Verkehrsmittel)
+  Auto: '🚗',
+  Zug: '🚂',
+  Bus: '🚌',
+  Fahrrad: '🚲',
+  Flugzeug: '✈️',
+  Schiff: '🚢',
+  Straße: '🛣️',
+  
+  // Family (Familie)
+  Vater: '👨',
+  Mutter: '👩',
+  Baby: '👶',
+  Bruder: '👦',
+  Schwester: '👧',
+  Großvater: '👴',
+  Großmutter: '👵',
+  
+  // Weather (Wetter)
+  Regen: '🌧️',
+  Schnee: '❄️',
+  Wind: '💨',
+  Gewitter: '⛈️',
+  Nebel: '🌫️',
+  
+  // School & Objects (Schule & Gegenstände)
+  Stift: '✏️',
+  Buch: '📖',
+  Computer: '💻',
+  Uhr: '⏰',
+  Tasche: '👜',
+  Telefon: '📱',
+  Fernseher: '📺',
+  Kamera: '📷',
+  Schlüssel: '🔑',
+  
+  // Places (Orte)
+  Markt: '🏪',
+  Park: '🌳',
+  Kirche: '⛪',
+  Museum: '🏛️',
+  Stadt: '🏙️',
+  
+  // Other
+  Himmel: '🌤️',
+  Nacht: '🌙',
+  Gold: '🥇',
+  Rose: '🌹',
+  Mond: '🌕',
+  Glück: '🍀',
+  Liebe: '❤️',
+  Fußball: '⚽',
+  Musik: '🎵',
+  Tanz: '💃',
 };
 
 export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onXPGain }: VisualMatchGameProps) => {
@@ -53,24 +164,41 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
 
   const currentWord = words[currentIndex];
   const isCompleted = currentIndex >= words.length;
-  const emoji = currentWord ? wordEmojis[currentWord.german] || '📝' : '';
+  
+  // Get emoji for current word - use the word's German name
+  const emoji = currentWord ? (wordEmojis[currentWord.german] || '📝') : '';
 
-  // Generate wrong options from same category
+  // Generate wrong options from same category, ensuring each has a unique emoji
   const options = useMemo(() => {
     if (!currentWord) return [];
     
+    // Filter words that have unique emojis and are not the current word
     const wrongWords = words
-      .filter(w => w.id !== currentWord.id && w.category === currentWord.category)
+      .filter(w => {
+        if (w.id === currentWord.id) return false;
+        const wEmoji = wordEmojis[w.german];
+        const currentEmoji = wordEmojis[currentWord.german];
+        // Ensure the word has an emoji and it's different from current word's emoji
+        return wEmoji && wEmoji !== currentEmoji && w.category === currentWord.category;
+      })
       .sort(() => Math.random() - 0.5)
       .slice(0, 3);
     
-    // Fill with any words if not enough from category
-    while (wrongWords.length < 3) {
-      const randomWord = words.find(w => 
-        w.id !== currentWord.id && !wrongWords.some(ww => ww.id === w.id)
-      );
-      if (randomWord) wrongWords.push(randomWord);
-      else break;
+    // Fill with any words if not enough from category (with unique emojis)
+    if (wrongWords.length < 3) {
+      const additionalWords = words
+        .filter(w => {
+          if (w.id === currentWord.id) return false;
+          if (wrongWords.some(ww => ww.id === w.id)) return false;
+          const wEmoji = wordEmojis[w.german];
+          const currentEmoji = wordEmojis[currentWord.german];
+          return wEmoji && wEmoji !== currentEmoji && !wrongWords.some(ww => wordEmojis[ww.german] === wEmoji);
+        })
+        .sort(() => Math.random() - 0.5);
+      
+      while (wrongWords.length < 3 && additionalWords.length > 0) {
+        wrongWords.push(additionalWords.shift()!);
+      }
     }
     
     return [...wrongWords, currentWord].sort(() => Math.random() - 0.5);
@@ -153,7 +281,7 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
           </h2>
           
           <p className="text-muted-foreground mb-6 text-center">
-            {correctCount} of {words.length} correct ({percentage}%)
+            {correctCount} von {words.length} richtig ({percentage}%)
           </p>
           
           <div className="flex gap-4 items-center mb-8">
@@ -170,11 +298,11 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
           <div className="flex gap-3">
             <Button variant="outline" onClick={onBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              Zurück
             </Button>
             <Button onClick={restartGame}>
               <RotateCcw className="w-4 h-4 mr-2" />
-              Try Again
+              Nochmal
             </Button>
           </div>
         </div>
@@ -195,7 +323,7 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
             {/* Streak indicator */}
             {streak >= 2 && (
               <Badge className="bg-primary/10 text-primary animate-bounce-in">
-                🔥 {streak} streak
+                🔥 {streak} Serie
               </Badge>
             )}
             
@@ -229,7 +357,7 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
               
               {/* English Word (Question) */}
               <p className="text-xl text-muted-foreground font-medium mb-2">
-                What is this in German?
+                Was ist das auf Deutsch?
               </p>
               <h2 className="font-heading text-2xl font-bold text-foreground">
                 {currentWord.english}
@@ -258,7 +386,6 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
         <div className="grid grid-cols-2 gap-2 mt-4">
           {options.map((option) => {
             const isSelected = result && option.id === currentWord.id;
-            const isWrongSelected = result === 'incorrect' && option.id !== currentWord.id;
             const optionEmoji = wordEmojis[option.german] || '📝';
             
             return (
@@ -300,7 +427,7 @@ export const VisualMatchGame = ({ words, onBack, onComplete, onRecordReview, onX
             className="gap-2"
           >
             <Volume2 className="w-4 h-4" />
-            Listen
+            Anhören
           </Button>
         </div>
       </main>

@@ -15,12 +15,18 @@ type CategoryFilter = 'all' | 'greeting' | 'shopping' | 'directions' | 'restaura
 type DifficultyFilter = 'all' | 'beginner' | 'intermediate' | 'advanced';
 
 const categoryLabels: Record<string, string> = {
-  greeting: 'Greetings',
-  shopping: 'Shopping',
-  directions: 'Directions',
+  greeting: 'Begrüßungen',
+  shopping: 'Einkaufen',
+  directions: 'Wegbeschreibungen',
   restaurant: 'Restaurant',
-  daily: 'Daily Life',
-  conversation: 'Conversations'
+  daily: 'Alltag',
+  conversation: 'Gespräche'
+};
+
+const difficultyLabels: Record<string, string> = {
+  beginner: 'Anfänger',
+  intermediate: 'Mittelstufe',
+  advanced: 'Fortgeschritten'
 };
 
 const difficultyColors: Record<string, string> = {
@@ -119,7 +125,7 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
             </Button>
             <div className="flex items-center gap-2">
               <Headphones className="w-6 h-6 text-primary" />
-              <h1 className="font-heading text-xl font-bold">Listening Practice</h1>
+              <h1 className="font-heading text-xl font-bold">Hörübungen</h1>
             </div>
           </div>
         </header>
@@ -128,32 +134,46 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
           {/* Filters */}
           <div className="space-y-3">
             <div>
-              <p className="text-sm text-muted-foreground mb-2">Category</p>
+              <p className="text-sm text-muted-foreground mb-2">Kategorie</p>
               <div className="flex flex-wrap gap-2">
-                {(['all', 'greeting', 'shopping', 'directions', 'restaurant', 'daily', 'conversation'] as const).map(cat => (
+                <Button
+                  variant={categoryFilter === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setCategoryFilter('all')}
+                >
+                  Alle
+                </Button>
+                {(['greeting', 'shopping', 'directions', 'restaurant', 'daily', 'conversation'] as const).map(cat => (
                   <Button
                     key={cat}
                     variant={categoryFilter === cat ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setCategoryFilter(cat)}
                   >
-                    {cat === 'all' ? 'All' : categoryLabels[cat]}
+                    {categoryLabels[cat]}
                   </Button>
                 ))}
               </div>
             </div>
             
             <div>
-              <p className="text-sm text-muted-foreground mb-2">Difficulty</p>
+              <p className="text-sm text-muted-foreground mb-2">Schwierigkeit</p>
               <div className="flex gap-2">
-                {(['all', 'beginner', 'intermediate', 'advanced'] as const).map(diff => (
+                <Button
+                  variant={difficultyFilter === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setDifficultyFilter('all')}
+                >
+                  Alle
+                </Button>
+                {(['beginner', 'intermediate', 'advanced'] as const).map(diff => (
                   <Button
                     key={diff}
                     variant={difficultyFilter === diff ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setDifficultyFilter(diff)}
                   >
-                    {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                    {difficultyLabels[diff]}
                   </Button>
                 ))}
               </div>
@@ -173,14 +193,14 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className={cn('text-xs px-2 py-0.5 rounded-full', difficultyColors[exercise.difficulty])}>
-                          {exercise.difficulty}
+                          {difficultyLabels[exercise.difficulty]}
                         </span>
                         <span className="text-xs text-muted-foreground">
                           {categoryLabels[exercise.category]}
                         </span>
                       </div>
                       <p className="text-sm font-medium line-clamp-1">{exercise.germanText}</p>
-                      <p className="text-xs text-muted-foreground">{exercise.questions.length} questions</p>
+                      <p className="text-xs text-muted-foreground">{exercise.questions.length} Fragen</p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-muted-foreground" />
                   </div>
@@ -204,7 +224,7 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
             <Button variant="ghost" size="icon" onClick={handleBackToList}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="font-heading text-xl font-bold">Exercise Complete!</h1>
+            <h1 className="font-heading text-xl font-bold">Übung abgeschlossen!</h1>
           </div>
         </header>
 
@@ -216,27 +236,27 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
             
             <div>
               <h2 className="text-3xl font-bold">{accuracy}%</h2>
-              <p className="text-muted-foreground">Accuracy</p>
+              <p className="text-muted-foreground">Genauigkeit</p>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-correct/10 p-4 rounded-xl">
                 <p className="text-2xl font-bold text-correct">{correctCount}</p>
-                <p className="text-sm text-muted-foreground">Correct</p>
+                <p className="text-sm text-muted-foreground">Richtig</p>
               </div>
               <div className="bg-incorrect/10 p-4 rounded-xl">
                 <p className="text-2xl font-bold text-incorrect">{totalAnswered - correctCount}</p>
-                <p className="text-sm text-muted-foreground">Incorrect</p>
+                <p className="text-sm text-muted-foreground">Falsch</p>
               </div>
             </div>
 
             <div className="space-y-3">
               <Button onClick={handleRestartExercise} className="w-full">
                 <RotateCcw className="w-4 h-4 mr-2" />
-                Try Again
+                Nochmal versuchen
               </Button>
               <Button variant="outline" onClick={handleBackToList} className="w-full">
-                Choose Another Exercise
+                Andere Übung wählen
               </Button>
             </div>
           </div>
@@ -258,10 +278,10 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
           </Button>
           <div className="flex-1">
             <span className="text-sm text-muted-foreground">
-              Question {currentQuestionIndex + 1} of {currentExercise.questions.length}
+              Frage {currentQuestionIndex + 1} von {currentExercise.questions.length}
             </span>
           </div>
-          <span className="text-sm font-medium text-correct">{correctCount} correct</span>
+          <span className="text-sm font-medium text-correct">{correctCount} richtig</span>
         </div>
         <Progress value={progress} className="h-2" />
       </header>
@@ -282,8 +302,8 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
               </Button>
               <p className="text-sm text-muted-foreground text-center">
                 {isSupported 
-                  ? 'Tap to listen to the German audio' 
-                  : 'Audio not supported in your browser'}
+                  ? 'Tippe, um das deutsche Audio zu hören' 
+                  : 'Audio wird in deinem Browser nicht unterstützt'}
               </p>
               
               <Button
@@ -291,7 +311,7 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
                 size="sm"
                 onClick={() => setShowTranslation(!showTranslation)}
               >
-                {showTranslation ? 'Hide Translation' : 'Show Translation'}
+                {showTranslation ? 'Übersetzung verstecken' : 'Übersetzung zeigen'}
               </Button>
               
               {showTranslation && (
@@ -347,7 +367,7 @@ export const ListeningExercise = ({ onBack }: ListeningExerciseProps) => {
         {/* Next Button */}
         {isAnswered && (
           <Button onClick={handleNextQuestion} className="w-full" size="lg">
-            {currentQuestionIndex < currentExercise.questions.length - 1 ? 'Next Question' : 'See Results'}
+            {currentQuestionIndex < currentExercise.questions.length - 1 ? 'Nächste Frage' : 'Ergebnisse anzeigen'}
           </Button>
         )}
       </main>
