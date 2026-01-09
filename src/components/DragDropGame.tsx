@@ -168,11 +168,14 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
           <div className="text-6xl mb-4">
             {percentage >= 80 ? '🏆' : percentage >= 60 ? '⭐' : '💪'}
           </div>
-          <h2 className="font-heading text-2xl font-bold text-foreground mb-2">
+          <h2 className="font-heading text-2xl font-bold text-foreground mb-1">
             {percentage >= 80 ? 'Ausgezeichnet!' : percentage >= 60 ? 'Gut gemacht!' : 'Weiter üben!'}
           </h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            {percentage >= 80 ? 'Excellent!' : percentage >= 60 ? 'Good job!' : 'Keep practicing!'}
+          </p>
           <p className="text-muted-foreground mb-6">
-            You got {correctCount} out of {words.length} correct
+            {correctCount} von {words.length} richtig / {correctCount} of {words.length} correct
           </p>
           
           <div className="flex gap-4 items-center mb-8">
@@ -189,11 +192,11 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
           <div className="flex gap-3">
             <Button variant="outline" onClick={onBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              Zurück / Back
             </Button>
-            <Button variant="primary" onClick={restartGame}>
+            <Button onClick={restartGame}>
               <RotateCcw className="w-4 h-4 mr-2" />
-              Try Again
+              Nochmal / Try Again
             </Button>
           </div>
         </div>
@@ -288,7 +291,7 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
           </div>
           
           <p className="text-sm text-muted-foreground mt-4 text-center">
-            Drag the word or tap the correct article
+            Tippe auf den richtigen Artikel / Tap the correct article
           </p>
         </div>
 
@@ -315,7 +318,7 @@ export const DragDropGame = ({ words, onBack, onComplete, onRecordReview, getWor
                 {article}
               </span>
               <span className="text-xs text-muted-foreground mt-1">
-                {article === 'der' ? 'masculine' : article === 'die' ? 'feminine' : 'neuter'}
+                {article === 'der' ? 'maskulin' : article === 'die' ? 'feminin' : 'neutral'}
               </span>
             </button>
           ))}
