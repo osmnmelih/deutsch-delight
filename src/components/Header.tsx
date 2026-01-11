@@ -1,12 +1,12 @@
-import { Flame, Settings, Volume2 } from 'lucide-react';
+import { Flame, Settings } from 'lucide-react';
 import { UserProgress } from '@/types/vocabulary';
-import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   progress: UserProgress;
+  onOpenSettings?: () => void;
 }
 
-export const Header = ({ progress }: HeaderProps) => {
+export const Header = ({ progress, onOpenSettings }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/40 safe-area-inset">
       <div className="container flex items-center justify-between h-16 px-4 max-w-lg mx-auto">
@@ -28,9 +28,10 @@ export const Header = ({ progress }: HeaderProps) => {
             <span className="font-bold text-sm text-primary">{progress.currentStreak}</span>
           </div>
           
-          <ThemeToggle />
-          
-          <button className="p-2 rounded-full hover:bg-muted transition-colors">
+          <button 
+            onClick={onOpenSettings}
+            className="p-2 rounded-full hover:bg-muted transition-colors"
+          >
             <Settings className="w-4 h-4 text-muted-foreground" />
           </button>
         </div>
