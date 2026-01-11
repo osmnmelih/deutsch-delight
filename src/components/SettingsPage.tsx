@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Volume2, VolumeX, Mic, Target, Moon, Sun, Monitor, Gauge, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Volume2, VolumeX, Mic, Target, Moon, Sun, Monitor, Gauge, User, LogIn, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { useTheme } from 'next-themes';
 import { useAudioPronunciation } from '@/hooks/useAudioPronunciation';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
 interface SettingsPageProps {
@@ -54,6 +55,8 @@ export const saveSettings = (settings: AppSettings) => {
 };
 
 export const SettingsPage = ({ onBack }: SettingsPageProps) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { speak, isSupported, isSpeaking } = useAudioPronunciation();
@@ -385,20 +388,28 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           </CardContent>
         </Card>
 
-        {/* Account Placeholder */}
-        <Card className="border-0 shadow-md opacity-60">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-muted flex items-center justify-center">
-                <User className="w-5 h-5 text-muted-foreground" />
+        {/* Account Section */}
+        <button
+          onClick={() => user ? onBack() : navigate('/auth')}
+          className="w-full"
+        >
+          <Card className="border-0 shadow-md hover:shadow-lg transition-shadow">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${user ? 'bg-secondary/15' : 'bg-primary/15'}`}>
+                  {user ? <User className="w-5 h-5 text-secondary" /> : <LogIn className="w-5 h-5 text-primary" />}
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="font-medium text-sm">{user ? 'Konto / Account' : 'Anmelden / Sign In'}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {user ? user.email : 'Mit Google oder E-Mail anmelden'}
+                  </p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </div>
-              <div className="flex-1">
-                <p className="font-medium text-sm">Konto / Account</p>
-                <p className="text-xs text-muted-foreground">Bald verfügbar / Coming soon</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </button>
 
         <div className="h-8" />
       </main>

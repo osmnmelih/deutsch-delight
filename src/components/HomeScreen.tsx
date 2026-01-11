@@ -22,6 +22,7 @@ import DictationExercise from './DictationExercise';
 import CultureIdioms from './CultureIdioms';
 import PhraseReview from './PhraseReview';
 import { SettingsPage } from './SettingsPage';
+import { ProfilePage } from './ProfilePage';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -38,12 +39,13 @@ import { useDailyGoals } from '@/hooks/useDailyGoals';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { QuestionType } from '@/types/quiz';
 import { toast } from 'sonner';
+import { useReviewNotifications } from '@/hooks/useReviewNotifications';
 
 type ActiveView = 
   | 'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' 
   | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' 
   | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' 
-  | 'conversations' | 'dictation' | 'culture' | 'phraseReview' | 'settings';
+  | 'conversations' | 'dictation' | 'culture' | 'phraseReview' | 'settings' | 'profile';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
@@ -92,6 +94,22 @@ export const HomeScreen = () => {
   }, [newAchievements, clearNewAchievements]);
 
   const globalStats = useMemo(() => getStats(), [getStats]);
+  
+  // Review notifications
+  useReviewNotifications({ 
+    dueWords: globalStats.dueNow, 
+    enabled: srsLoaded 
+  });
+
+  // Listen for review notification action
+  useEffect(() => {
+    const handleStartReview = () => {
+      handleReviewDue();
+    };
+    
+    window.addEventListener('start-review', handleStartReview);
+    return () => window.removeEventListener('start-review', handleStartReview);
+  }, []);
   
   const [progress, setProgress] = useState<UserProgress>({
     totalWords: vocabularyWords.length,
@@ -215,6 +233,7 @@ export const HomeScreen = () => {
     culture: <CultureIdioms onBack={handleBack} />,
     phraseReview: <PhraseReview onBack={handleBack} />,
     settings: <SettingsPage onBack={handleBack} />,
+    profile: <ProfilePage onBack={handleBack} />,
     quiz: <Quiz words={gameWords.length ? gameWords : unlockedWords} allWords={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={recordReview} quizType={quizType} />,
   };
 
@@ -332,7 +351,7 @@ export const HomeScreen = () => {
 
   return (
     <div className="min-h-screen bg-background safe-area-inset">
-      <Header progress={progress} onOpenSettings={() => setActiveView('settings')} />
+      <Header progress={progress} onOpenSettings={() => setActiveView('settings')} onOpenProfile={() => setActiveView('profile')} />
       
       <main className="container px-4 py-5 space-y-5 max-w-lg mx-auto">
         {/* Welcome & Level Card */}

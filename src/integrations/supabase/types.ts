@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      notification_settings: {
+        Row: {
+          created_at: string
+          daily_goal_reminders: boolean | null
+          id: string
+          reminder_time: string | null
+          review_reminders: boolean | null
+          streak_reminders: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          daily_goal_reminders?: boolean | null
+          id?: string
+          reminder_time?: string | null
+          review_reminders?: boolean | null
+          streak_reminders?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          daily_goal_reminders?: boolean | null
+          id?: string
+          reminder_time?: string | null
+          review_reminders?: boolean | null
+          streak_reminders?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      streak_history: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          minutes_practiced: number | null
+          quizzes_completed: number | null
+          user_id: string
+          words_learned: number | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          minutes_practiced?: number | null
+          quizzes_completed?: number | null
+          user_id: string
+          words_learned?: number | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          minutes_practiced?: number | null
+          quizzes_completed?: number | null
+          user_id?: string
+          words_learned?: number | null
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          created_at: string
+          current_level: number | null
+          current_streak: number | null
+          id: string
+          last_activity_date: string | null
+          longest_streak: number | null
+          total_correct_answers: number | null
+          total_incorrect_answers: number | null
+          total_quizzes_completed: number | null
+          total_words_learned: number | null
+          total_xp: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_level?: number | null
+          current_streak?: number | null
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          total_correct_answers?: number | null
+          total_incorrect_answers?: number | null
+          total_quizzes_completed?: number | null
+          total_words_learned?: number | null
+          total_xp?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_level?: number | null
+          current_streak?: number | null
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          total_correct_answers?: number | null
+          total_incorrect_answers?: number | null
+          total_quizzes_completed?: number | null
+          total_words_learned?: number | null
+          total_xp?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
