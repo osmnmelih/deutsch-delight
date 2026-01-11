@@ -1,5 +1,18 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 
+// Get settings from localStorage
+const getStoredSettings = () => {
+  try {
+    const stored = localStorage.getItem('deutschlernen_settings');
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error('Failed to load audio settings:', e);
+  }
+  return { audioSpeed: 0.88, voiceGender: 'female' };
+};
+
 interface UseAudioPronunciationOptions {
   lang?: string;
   rate?: number;
@@ -7,13 +20,14 @@ interface UseAudioPronunciationOptions {
 }
 
 export function useAudioPronunciation(options: UseAudioPronunciationOptions = {}) {
-  const { lang = 'de-DE', rate = 0.88, pitch = 1.05 } = options;
+  const { lang = 'de-DE' } = options;
   const [isSupported, setIsSupported] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const preferredVoice = useRef<SpeechSynthesisVoice | null>(null);
+  const femaleVoice = useRef<SpeechSynthesisVoice | null>(null);
+  const maleVoice = useRef<SpeechSynthesisVoice | null>(null);
 
-  // Initialize voices - prioritize female German Hochdeutsch voices
+  // Initialize voices - find both male and female German Hochdeutsch voices
   useEffect(() => {
     if (!('speechSynthesis' in window)) {
       setIsSupported(false);
@@ -26,67 +40,72 @@ export function useAudioPronunciation(options: UseAudioPronunciationOptions = {}
       const availableVoices = speechSynthesis.getVoices();
       setVoices(availableVoices);
 
-      // Find best German voice - prioritize female Hochdeutsch voices
-      const germanVoices = availableVoices.filter(v => v.lang.startsWith('de'));
-      
-      // Priority order: Female Hochdeutsch voices (standard German, not Austrian/Swiss)
-      // These are common female German voice names across different systems
-      const preferredFemaleVoices = [
-        // Google voices (Chrome)
-        'Google Deutsch',
-        // Microsoft voices (Edge/Windows)
-        'Microsoft Katja',
-        'Microsoft Hedda', 
-        'Katja',
-        'Hedda',
-        // Apple voices (Safari/macOS/iOS)
-        'Anna',
-        'Helena',
-        'Petra',
-        'Marlene',
-        // Generic female indicators
-        'Female',
-        'Frau',
-      ];
-
-      // Filter for de-DE (Hochdeutsch) not de-AT (Austrian) or de-CH (Swiss)
-      const hochdeutschVoices = germanVoices.filter(v => 
+      // Get German voices - filter for de-DE (Hochdeutsch), not de-AT or de-CH
+      const germanVoices = availableVoices.filter(v => 
         v.lang === 'de-DE' || v.lang === 'de_DE' || v.lang === 'de'
       );
 
-      // Try to find a preferred female voice in Hochdeutsch
-      let selectedVoice = hochdeutschVoices.find(v => 
-        preferredFemaleVoices.some(name => 
-          v.name.toLowerCase().includes(name.toLowerCase())
-        )
+      // Known female German voice names across platforms
+      const knownFemaleNames = [
+        'anna', 'helena', 'petra', 'marlene', 'hedda', 'katja', 
+        'vicki', 'eva', 'monica', 'steffi', 'sabine', 'karin',
+        'google deutsch', 'microsoft hedda', 'microsoft katja'
+      ];
+
+      // Known male German voice names
+      const knownMaleNames = [
+        'hans', 'stefan', 'conrad', 'markus', 'jonas', 'max',
+        'florian', 'michael', 'thomas', 'andreas'
+      ];
+
+      // Find best female voice
+      let foundFemale = germanVoices.find(v => 
+        knownFemaleNames.some(name => v.name.toLowerCase().includes(name))
       );
 
-      // Fallback: any Hochdeutsch voice that seems female (often have softer names)
-      if (!selectedVoice) {
-        selectedVoice = hochdeutschVoices.find(v => 
-          !v.name.toLowerCase().includes('male') &&
-          !v.name.toLowerCase().includes('hans') &&
-          !v.name.toLowerCase().includes('conrad') &&
-          !v.name.toLowerCase().includes('stefan') &&
-          !v.name.toLowerCase().includes('markus')
+      // Fallback: any German voice that's NOT known male
+      if (!foundFemale) {
+        foundFemale = germanVoices.find(v => 
+          !knownMaleNames.some(name => v.name.toLowerCase().includes(name)) &&
+          !v.name.toLowerCase().includes('male')
         );
       }
 
-      // Fallback: any Hochdeutsch voice
-      if (!selectedVoice) {
-        selectedVoice = hochdeutschVoices[0];
+      // Final fallback
+      if (!foundFemale && germanVoices.length > 0) {
+        foundFemale = germanVoices[0];
       }
 
-      // Final fallback: any German voice
-      if (!selectedVoice) {
-        selectedVoice = germanVoices[0];
+      femaleVoice.current = foundFemale || null;
+
+      // Find best male voice
+      let foundMale = germanVoices.find(v => 
+        knownMaleNames.some(name => v.name.toLowerCase().includes(name))
+      );
+
+      // Fallback: any German voice with 'male' indicator
+      if (!foundMale) {
+        foundMale = germanVoices.find(v => 
+          v.name.toLowerCase().includes('male') ||
+          knownMaleNames.some(name => v.name.toLowerCase().includes(name))
+        );
       }
 
-      preferredVoice.current = selectedVoice || null;
-      
-      // Log selected voice for debugging
-      if (selectedVoice) {
-        console.log('Selected German voice:', selectedVoice.name, selectedVoice.lang);
+      // Final fallback for male
+      if (!foundMale && germanVoices.length > 1) {
+        foundMale = germanVoices[1];
+      } else if (!foundMale && germanVoices.length > 0) {
+        foundMale = germanVoices[0];
+      }
+
+      maleVoice.current = foundMale || null;
+
+      // Log selected voices for debugging
+      if (foundFemale) {
+        console.log('Selected female German voice:', foundFemale.name, foundFemale.lang);
+      }
+      if (foundMale) {
+        console.log('Selected male German voice:', foundMale.name, foundMale.lang);
       }
     };
 
@@ -103,18 +122,31 @@ export function useAudioPronunciation(options: UseAudioPronunciationOptions = {}
   const speak = useCallback((text: string, customRate?: number) => {
     if (!isSupported) return;
 
+    // Get current settings
+    const settings = getStoredSettings();
+    const rate = customRate ?? settings.audioSpeed ?? 0.88;
+    const voiceGender = settings.voiceGender ?? 'female';
+
     // Cancel any ongoing speech
     speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
-    // Slightly slower and higher pitch for clearer, more natural female voice
-    utterance.rate = customRate ?? rate;
-    utterance.pitch = pitch;
+    utterance.rate = rate;
+    // Adjust pitch based on gender for more natural sound
+    utterance.pitch = voiceGender === 'female' ? 1.1 : 0.95;
     utterance.volume = 1.0;
 
-    if (preferredVoice.current) {
-      utterance.voice = preferredVoice.current;
+    // Select voice based on gender preference
+    const selectedVoice = voiceGender === 'female' ? femaleVoice.current : maleVoice.current;
+    
+    // Fallback to any available voice
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    } else if (femaleVoice.current) {
+      utterance.voice = femaleVoice.current;
+    } else if (maleVoice.current) {
+      utterance.voice = maleVoice.current;
     }
 
     utterance.onstart = () => setIsSpeaking(true);
@@ -122,7 +154,7 @@ export function useAudioPronunciation(options: UseAudioPronunciationOptions = {}
     utterance.onerror = () => setIsSpeaking(false);
 
     speechSynthesis.speak(utterance);
-  }, [isSupported, lang, rate, pitch]);
+  }, [isSupported, lang]);
 
   const speakWord = useCallback((word: string, article?: string) => {
     // Clean the text for better pronunciation
@@ -137,11 +169,16 @@ export function useAudioPronunciation(options: UseAudioPronunciationOptions = {}
       .replace(/\([^)]*\)/g, '') // Remove parentheses content
       .replace(/\[[^\]]*\]/g, '') // Remove bracket content
       .trim();
-    speak(cleanSentence, 0.85); // Slightly slower for sentences
+    // Slightly slower for sentences
+    const settings = getStoredSettings();
+    const slowRate = (settings.audioSpeed ?? 0.88) * 0.95;
+    speak(cleanSentence, slowRate);
   }, [speak]);
 
   const speakSlow = useCallback((text: string) => {
-    speak(text, 0.65); // Slow mode for learning
+    const settings = getStoredSettings();
+    const slowRate = Math.max(0.5, (settings.audioSpeed ?? 0.88) - 0.25);
+    speak(text, slowRate);
   }, [speak]);
 
   const stop = useCallback(() => {

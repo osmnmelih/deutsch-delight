@@ -21,6 +21,7 @@ import ConversationPractice from './ConversationPractice';
 import DictationExercise from './DictationExercise';
 import CultureIdioms from './CultureIdioms';
 import PhraseReview from './PhraseReview';
+import { SettingsPage } from './SettingsPage';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -42,7 +43,7 @@ type ActiveView =
   | 'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' 
   | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' 
   | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' 
-  | 'conversations' | 'dictation' | 'culture' | 'phraseReview';
+  | 'conversations' | 'dictation' | 'culture' | 'phraseReview' | 'settings';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
@@ -213,6 +214,7 @@ export const HomeScreen = () => {
     dictation: <DictationExercise onBack={handleBack} />,
     culture: <CultureIdioms onBack={handleBack} />,
     phraseReview: <PhraseReview onBack={handleBack} />,
+    settings: <SettingsPage onBack={handleBack} />,
     quiz: <Quiz words={gameWords.length ? gameWords : unlockedWords} allWords={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={recordReview} quizType={quizType} />,
   };
 
@@ -330,7 +332,7 @@ export const HomeScreen = () => {
 
   return (
     <div className="min-h-screen bg-background safe-area-inset">
-      <Header progress={progress} />
+      <Header progress={progress} onOpenSettings={() => setActiveView('settings')} />
       
       <main className="container px-4 py-5 space-y-5 max-w-lg mx-auto">
         {/* Welcome & Level Card */}
