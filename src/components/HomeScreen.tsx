@@ -23,6 +23,8 @@ import CultureIdioms from './CultureIdioms';
 import PhraseReview from './PhraseReview';
 import { SettingsPage } from './SettingsPage';
 import { ProfilePage } from './ProfilePage';
+import { MixedPractice } from './MixedPractice';
+import { VocabularyFlashcards } from './VocabularyFlashcards';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -34,7 +36,7 @@ import {
 } from 'lucide-react';
 import { vocabularyWords } from '@/data/vocabulary';
 import { UserProgress, VocabularyWord } from '@/types/vocabulary';
-import { useSRS } from '@/hooks/useSRS';
+import { useSyncedSRS } from '@/hooks/useSyncedSRS';
 import { useDailyGoals } from '@/hooks/useDailyGoals';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { QuestionType } from '@/types/quiz';
@@ -45,7 +47,8 @@ type ActiveView =
   | 'home' | 'vocabulary' | 'grammar' | 'quiz' | 'verbs' | 'achievements' 
   | 'sentences' | 'listening' | 'verbQuiz' | 'verbFlashcards' | 'caseQuiz' 
   | 'prepositions' | 'numbersTime' | 'dashboard' | 'reading' | 'writing' 
-  | 'conversations' | 'dictation' | 'culture' | 'phraseReview' | 'settings' | 'profile';
+  | 'conversations' | 'dictation' | 'culture' | 'phraseReview' | 'settings' | 'profile'
+  | 'mixedPractice' | 'vocabFlashcards';
 
 export const HomeScreen = () => {
   const [activeGame, setActiveGame] = useState<string | null>(null);
@@ -60,8 +63,9 @@ export const HomeScreen = () => {
     getStats, 
     recordReview, 
     getWordDifficulty,
-    getSRSData
-  } = useSRS(vocabularyWords);
+    getSRSData,
+    recordReviewWithQuality
+  } = useSyncedSRS(vocabularyWords);
   
   const { 
     dailyProgress,
@@ -234,7 +238,9 @@ export const HomeScreen = () => {
     phraseReview: <PhraseReview onBack={handleBack} />,
     settings: <SettingsPage onBack={handleBack} />,
     profile: <ProfilePage onBack={handleBack} />,
-    quiz: <Quiz words={gameWords.length ? gameWords : unlockedWords} allWords={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={recordReview} quizType={quizType} />,
+    quiz: <Quiz words={gameWords.length ? gameWords : unlockedWords} allWords={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={(wordId, correct, time) => { recordReview(wordId, correct, time); }} quizType={quizType} />,
+    mixedPractice: <MixedPractice words={unlockedWords} onBack={handleBack} onComplete={handleQuizComplete} onRecordReview={(wordId, correct, time) => { recordReview(wordId, correct, time); }} />,
+    vocabFlashcards: <VocabularyFlashcards words={gameWords} categoryTitle="Vokabeln" getSRSData={getSRSData} getWordDifficulty={getWordDifficulty} onRecordReview={(wordId, quality) => { recordReviewWithQuality(wordId, quality); }} onBack={handleBack} />,
   };
 
   if (activeView !== 'home') {
@@ -249,7 +255,11 @@ export const HomeScreen = () => {
         words={gameWords} 
         onBack={handleBack}
         onComplete={handleGameComplete}
-        onRecordReview={recordReview}
+        onRecordReview={(wordId, correct, time) => { recordReview(wordId, correct, time); }}
+        getWordDifficulty={getWordDifficulty}
+      />
+    );
+  }
         getWordDifficulty={getWordDifficulty}
       />
     );
@@ -401,7 +411,7 @@ export const HomeScreen = () => {
         {/* Quick Start Actions */}
         <div className="grid grid-cols-2 gap-3">
           <button
-            onClick={handleQuickPractice}
+            onClick={() => setActiveView('mixedPractice')}
             className="group relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex flex-col items-start gap-3 shadow-lg active:scale-[0.98] transition-all duration-200"
           >
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
