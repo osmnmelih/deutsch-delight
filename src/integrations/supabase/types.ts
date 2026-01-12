@@ -152,6 +152,51 @@ export type Database = {
         }
         Relationships: []
       }
+      user_srs_data: {
+        Row: {
+          correct_count: number
+          created_at: string
+          ease_factor: number
+          id: string
+          incorrect_count: number
+          interval: number
+          last_reviewed: string | null
+          next_review: string
+          repetitions: number
+          updated_at: string
+          user_id: string
+          word_id: string
+        }
+        Insert: {
+          correct_count?: number
+          created_at?: string
+          ease_factor?: number
+          id?: string
+          incorrect_count?: number
+          interval?: number
+          last_reviewed?: string | null
+          next_review?: string
+          repetitions?: number
+          updated_at?: string
+          user_id: string
+          word_id: string
+        }
+        Update: {
+          correct_count?: number
+          created_at?: string
+          ease_factor?: number
+          id?: string
+          incorrect_count?: number
+          interval?: number
+          last_reviewed?: string | null
+          next_review?: string
+          repetitions?: number
+          updated_at?: string
+          user_id?: string
+          word_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

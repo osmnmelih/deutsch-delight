@@ -16,7 +16,7 @@ const shuffle = <T>(array: T[]): T[] => {
   return shuffled;
 };
 
-// Generate multiple choice question (English to German)
+// Generate multiple choice question (English to German) - German prompts
 export const generateMultipleChoiceQuestion = (
   word: VocabularyWord,
   allWords: VocabularyWord[]
@@ -44,17 +44,18 @@ export const generateMultipleChoiceQuestion = (
     word,
     options,
     correctAnswer: word.german,
-    prompt: `What is "${word.english}" in German?`
+    prompt: `Wie heißt "${word.english}" auf Deutsch?`
   };
 };
 
-// Generate fill-in-the-blank question
+// Generate fill-in-the-blank question - German prompts
 export const generateFillBlankQuestion = (word: VocabularyWord): QuizQuestion => {
-  // Create a sentence with the article missing
+  // Create a sentence with the article missing - German focus
   const sentences = [
-    `_____ ${word.german} (${word.english})`,
-    `Ich sehe _____ ${word.german}. (I see the ${word.english})`,
-    `Das ist _____ ${word.german}. (That is the ${word.english})`
+    `Ergänze den Artikel: _____ ${word.german}`,
+    `Ich sehe _____ ${word.german}.`,
+    `Das ist _____ ${word.german}.`,
+    `Wo ist _____ ${word.german}?`
   ];
   
   const prompt = sentences[Math.floor(Math.random() * sentences.length)];
@@ -68,7 +69,7 @@ export const generateFillBlankQuestion = (word: VocabularyWord): QuizQuestion =>
   };
 };
 
-// Generate article selection question
+// Generate article selection question - German prompts
 export const generateArticleSelectQuestion = (word: VocabularyWord): QuizQuestion => {
   return {
     id: generateId(),
@@ -76,7 +77,7 @@ export const generateArticleSelectQuestion = (word: VocabularyWord): QuizQuestio
     word,
     options: articles,
     correctAnswer: word.article,
-    prompt: `Choose the correct article for "${word.german}" (${word.english})`
+    prompt: `Welcher Artikel passt zu "${word.german}"?`
   };
 };
 
