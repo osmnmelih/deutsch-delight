@@ -255,17 +255,13 @@ export const HomeScreen = () => {
         words={gameWords} 
         onBack={handleBack}
         onComplete={handleGameComplete}
-        onRecordReview={(wordId, correct, time) => { recordReview(wordId, correct, time); }}
-        getWordDifficulty={getWordDifficulty}
-      />
-    );
-  }
+        onRecordReview={(wordId, correct, time) => recordReview(wordId, correct, time) as unknown as import('@/types/srs').SRSData}
         getWordDifficulty={getWordDifficulty}
       />
     );
   }
 
-  const levelProgress = userLevel.xpToNextLevel > 0 
+  const levelProgress = userLevel.xpToNextLevel > 0
     ? (userLevel.xp / userLevel.xpToNextLevel) * 100 
     : 0;
 
