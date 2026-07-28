@@ -122,7 +122,7 @@ const Auth = () => {
             <span className="text-3xl">🇩🇪</span>
           </div>
           <CardTitle className="font-heading text-2xl">
-            Deutsch<span className="text-primary">Lernen</span>
+            Deutsche<span className="text-primary">Gelernt</span>
           </CardTitle>
           <CardDescription className="text-base">
             {isSignUp 
