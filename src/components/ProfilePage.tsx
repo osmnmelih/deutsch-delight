@@ -123,9 +123,10 @@ export const ProfilePage = ({ onBack }: ProfilePageProps) => {
     setUpdatingNotifications(true);
     
     try {
+      const updateData: Partial<NotificationSettings> = { [key]: value };
       const { error } = await supabase
         .from('notification_settings')
-        .update({ [key]: value })
+        .update(updateData)
         .eq('user_id', user.id);
       
       if (error) throw error;
