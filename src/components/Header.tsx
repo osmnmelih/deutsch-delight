@@ -41,7 +41,7 @@ export const Header = ({ progress, onOpenSettings, onOpenProfile }: HeaderProps)
           </div>
           <div>
             <h1 className="font-heading font-bold text-lg text-foreground leading-tight">
-              Deutsch<span className="text-primary">Lernen</span>
+              Deutsche<span className="text-primary">Gelernt</span>
             </h1>
             <p className="text-[10px] text-muted-foreground -mt-0.5">Learn German</p>
           </div>
